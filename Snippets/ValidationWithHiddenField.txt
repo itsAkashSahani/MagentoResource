@@ -1,0 +1,26 @@
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+
+    var dataForm = $('#form-validate');
+    var ignore = {$ignore};
+
+    dataForm.mage('validation', {
+        errorPlacement: function(error, element) {
+
+            if (element.attr("id") == 'mobilenumber') {
+                //Your logic here
+                //console.log("See");
+            }
+
+            if (element.is(':checkbox')) {
+
+                //If element is checkbox or radio button
+
+            }
+        },
+        ignore: ':hidden:not(#mobilenumber)'
+    });
+});
+

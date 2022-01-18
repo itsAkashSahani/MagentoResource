@@ -1,0 +1,17 @@
+require([
+        'jquery',
+        'mage/validation'
+    ], function($){
+
+        var dataForm = $('#<FORM ID>');
+        var ignore = null;
+
+        dataForm.mage('validation', {
+          
+        });
+
+        $('#next_button').click( function() { //can be replaced with any event
+            var status = dataForm.validation('isValid'); //validates form and returns boolean
+            console.log(status);
+        });
+    });

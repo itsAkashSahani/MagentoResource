@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+	  <add id="Akash_AdminMenu::menu" title="Menu" translate="title" module="Akash_AdminMenu" sortOrder="90" dependsOnModule="Akash_AdminMenu" resource="Akash_AdminMenu::menu"/>
+	  <add id="Akash_AdminMenu::menu_options" title="Options" translate="title" module="Akash_AdminMenu" parent="Akash_AdminMenu::menu" sortOrder="50" dependsOnModule="Akash_AdminMenu" resource="Akash_AdminMenu::menu_options"/>
+	  <add id="Akash_AdminMenu::option1" title="Option 1" translate="title" module="Akash_AdminMenu" parent="Akash_AdminMenu::menu_options" sortOrder="10" dependsOnModule="Akash_AdminMenu" action="menu/adminmenu" resource="Akash_AdminMenu::option1"/>
+	  <add id="Akash_AdminMenu::option2" title="Option 2" translate="title" module="Akash_AdminMenu" parent="Akash_AdminMenu::menu_options" sortOrder="10" dependsOnModule="Akash_AdminMenu" action="menu/adminmenu/second" resource="Akash_AdminMenu::option2"/>
+	</menu>
+</config>
