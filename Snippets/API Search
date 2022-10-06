@@ -1,0 +1,5 @@
+Customer Search Search :
+
+https://albatoolecomm.northeurope.cloudapp.azure.com/rest/V1/customers/search?searchCriteria[filter_groups][0][filters][0][field]=mobilenumber&searchCriteria[filter_groups][0][filters][0][value]=500000000&searchCriteria[filter_groups][0][filters][0][condition_type]=eq
+
+https://albatoolecomm.northeurope.cloudapp.azure.com/rest/V1/orders/?searchCriteria[filter_groups][0][filters][0][field]=customer_mobilenumber&searchCriteria[filter_groups][0][filters][0][value]=500000000&searchCriteria[filter_groups][0][filters][0][condition_type]=eq
