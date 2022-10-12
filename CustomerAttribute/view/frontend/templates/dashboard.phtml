@@ -1,0 +1,80 @@
+<div class="web_dashboard">
+    <?php echo $this->getLayout()->createBlock("Magento\Sales\Block\Order\History")->setTemplate("Magento_Sales::order/history.phtml")->toHtml() ?>
+</div>
+
+<div class="mob_dashboard">
+    <?php $om = \Magento\Framework\App\ObjectManager::getInstance(); 
+        $customerSession = $om->get('Magento\Customer\Model\Session'); 
+        $customerData = $customerSession->getCustomer()->getData(); //get all data of customerData
+        $Firstname = $customerSession->getCustomer()->getFirstname();//get id of customer
+        $logo = $customerSession->getCustomer()->getMyCustomerImage();
+        $urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+        $current = $urlInterface->getCurrentUrl(); 
+    ?>
+    <?php echo $this->getLayout()->createBlock("SK\ProfilePic\Block\Customer\Account\ProfilePic")->setTemplate("SK_ProfilePic::customer/account/profilepic.phtml")->toHtml();?>
+
+    <div class="block block-collapsible-nav">
+        <div class="title block-collapsible-nav-title" data-mage-init="{&quot;toggleAdvanced&quot;: {&quot;toggleContainers&quot;: &quot;#block-collapsible-nav&quot;, &quot;selectorsToggleClass&quot;: &quot;active&quot;}}">
+            <strong><?= __("My Account") ?></strong>
+        </div>
+        <div class="content block-collapsible-nav-content" id="block-collapsible-nav">
+            <ul class="nav items" id="nav-list">
+                <?php if($current == $this->getUrl('customer/account/edit')){?>
+                    <li class="nav item myaccount current">
+                <?php }else{?>
+                    <li class="nav item myaccount">
+                <?php }?>
+                
+                <a href="<?php echo $this->getUrl('customer/account/edit');?>"><?= __("My personal informations") ?>
+                    <span><?= __("View or change your personal information and password") ?></span></a>
+                </li>
+                <?php if($current == $this->getUrl('customer/address')){?>
+                    <li class="nav item addressbook current">
+                <?php }else{?>
+                    <li class="nav item addressbook">
+                <?php }?>
+                    <a href="<?php echo $this->getUrl('customer/address');?>"><?= __("My adresses") ?> <span><?= __("View or edit addresses delivery and invoicing") ?></span></a>
+                </li>
+                <?php if($current == $this->getUrl('sales/order/history')){?>
+                    <li class="nav item myorders current">
+                <?php }else{?>
+                    <li class="nav item myorders">
+                <?php }?>
+                    <a href="<?php echo $this->getUrl('sales/order/history');?>"><?= __("My orders") ?> <span><?= __("View your current and past orders") ?></span></a>
+                    </li>
+                <?php if($current == $this->getUrl('wishlist')){?>
+                    <li class="nav item mywishlist current">
+                <?php }else{?>
+                    <li class="nav item mywishlist">
+                <?php }?>
+                    <a href="<?php echo $this->getUrl('wishlist');?>"><?= __("My wishlist") ?> <span><?= __("View your personalized collections of products") ?></span></a>
+                    </li>
+                <?php if($current == $this->getUrl('customer/history/loyalty')){?>
+                    <li class="nav item myrewardpoints current">
+                <?php }else{?>
+                    <li class="nav item myrewardpoints">
+                <?php }?>
+                    <a href="<?php echo $this->getUrl('customer/history/loyalty');?>"><?= __("Loyalty points") ?> <span><?= __("View your earn points on every purchase") ?></span></a>
+                    </li>
+                <?php if($current == $this->getUrl('credit/account')){?>
+                    <li class="nav item storecredit current">
+                <?php } else{?>
+                    <li class="nav item storecredit">
+                <?php } ?>
+                    <a href="<?php echo $this->getUrl('credit/account'); ?>"><?= __("Store credit") ?> <span><?= __("View your Store credit an amount that is restored to your account") ?></span></a>
+                </li>
+                <?php if($current == $this->getUrl('review/customer')){?>
+                    <li class="nav item myproductreviews current">
+                <?php }else{?>
+                    <li class="nav item myproductreviews">
+                <?php }?>
+                    <a href="<?php echo $this->getUrl('review/customer');?>"><?= __("My Reviews") ?> <span><?= __("View your reviews about a product written by you") ?></span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="group-btn text-center">
+            <a href="<?php echo $this->getUrl('customer/account/logout');?>" class="logout-btn link-text"><?= __("LOG OUT") ?></a>
+        </div>
+    </div>
+
+</div>

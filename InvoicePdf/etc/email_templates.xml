@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+
+    <template id="invoicepdfqrgen_general_send_invoice_pdf" label="Send Invoice Pdf"
+              file="send_invoice_pdf.html" type="html" module="Albatool_InvoicePdf" area="frontend"/>
+</config>

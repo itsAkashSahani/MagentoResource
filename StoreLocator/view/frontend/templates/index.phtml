@@ -1,0 +1,44 @@
+<div class="store-locator">
+    <div class="column container">
+        <div class="main">
+            <div class="page-title">
+                <h1><?= __("<span>Find the nearest</span> Store") ?></h1>
+            </div>
+            <input type="hidden" id="getCity" value="<?= $block->getBaseUrl() ?>rest/en/V1/inventory/store-locator/getcity">
+            <input type="hidden" id="getStoreDetails" value="<?= $block->getBaseUrl() ?>rest/en/V1/inventory/store-locator/store-locations">
+            <input type="hidden" id="storesLocation" value="<?= $block->getBaseUrl() ?>rest/en/V1/inventory/store-locator/storelocation">
+            <div class="store-banner">
+                <img src="<?php echo $this->getViewFileUrl('Albatool_StoreLocator::images/storelocator-banner.png'); ?>" class="img-fluid desk-banner" />
+                <img src="<?php echo $this->getViewFileUrl('Albatool_StoreLocator::images/storelocator-banner-mob.png'); ?>" class="img-fluid mob-banner" />
+            </div>
+            <div class="box-shadow">
+                <div class="block block-search">
+                    <div class="title">
+                        <p><?= __("Select Store") ?></p>
+                    </div>
+                    <div class="store-selector-search">
+                        <div class="field select-city">
+                            <select class="city-option" id="stores">
+                                <option value=""><?= __("Select City") ?></option>
+                            </select>
+                        </div>
+                        <div id="currentLocation" class="use-currentloction action primary">
+                            <span><?= __("Use Current Location") ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div id="search-result-store" class="search-result-store">
+                    <div class="store-details"></div>
+                </div>
+                <div id="store-google-map" class="store-google-map">
+                    <div id="map"></div>
+                    <input type="text" name="searchBar" placeholder="<?= __("Search for an addresses") ?>" id="searchBar" />
+                    <button class="map-search" type="submit" title="Search"></button>
+                </div>
+            </div>
+            <div class="page-desc">
+				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('plp_bottom_desc')->toHtml();?>
+			</div>
+        </div>
+    </div>
+</div>

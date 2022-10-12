@@ -1,0 +1,212 @@
+<?php
+$glossaryCollection = $block->getGlossaryData();
+$glossaryIndexData =  $block->getIndexData();
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();  
+$request = $objectManager->get('Magento\Framework\App\Request\Http');  
+$param = $request->getParam('name');
+
+?>
+<div class="search-main">
+    <div class="container">
+        <div class="ingredients-heading">
+            <h1 class="bold black">Ingredients glossary</h1>
+        </div>
+        <div class="search-header">
+            <ul class="search-by-letter">
+                <?php foreach ($glossaryIndexData as $indexValue) { ?>
+                    <li><a class="letter" href="#<?= /* @noEscape */ $indexValue->getShortcharacter(); ?>"><?= /* @noEscape */ $indexValue->getShortcharacter(); ?></a></li>
+                <?php } ?>
+            </ul>
+
+            <div class="search-form">
+                <!--<h1>Search</h1>-->
+                <form role="form" autocomplete="off">
+                    <div class="form-group">
+                        <?php if (strlen($param) > 0): ?>
+                            <input type="input" class="form-control input-lg" id="txt-search" value="<?= $param ?>" placeholder="Type your search character" />
+                        <?php else: ?>
+                            <input type="input" class="form-control input-lg" id="txt-search" placeholder="Type your search character" />
+                        <?php endif; ?>
+                    </div>
+                </form>
+                <div id="filter-records"></div>
+            </div>
+        </div>
+        <?php 
+        $j = 0;
+        foreach ($glossaryCollection as $key => $glossary) { ?>
+        <?php $k = 0; ?>
+            <div class="search-wrapper" id="<?= /* @noEscape */ $key; ?>">
+                <div class="search-letter">
+                    <h2><?= /* @noEscape */ $key; ?></h2>
+                </div>
+
+                <div class="search-category">
+                    <ul class="extra_ul_<?php echo $j;?>">
+                        <?php
+                        $i = 1;
+                        foreach ($glossary as $item) { //echo "<pre>";print_r($item);
+                            if($i<=9):
+                        ?>
+                            <li>
+                                <a href="#" name="<?= $item['name']; ?>" class="ingredient <?php if($item['is_organic']=='yes'): echo 'oragnic'; endif;?>"><?= /* @noEscape */ strtoupper($item['name']); ?></a>
+                            </li>
+                        <?php else:?>
+                            <div class="extra_val_div_<?php echo $j;?>" style="display: none;">
+                                <li >
+                                    <a href="#" name="<?= $item['name']; ?>" class="ingredient <?php if($item['is_organic']=='yes'): echo 'oragnic'; endif;?>" ><?= /* @noEscape */ strtoupper($item['name']); ?></a>
+                                </li>
+                            </div>
+                        <?php endif;$i++;$k++?>
+
+                        <?php } ?>
+                    </ul>
+                </div>
+                <?php if($k > 9): ?>
+                    <a href="javascript:void(0);" class="btn action view-more" data-id="<?php echo $j;?>"> Load more</a>
+                    <a href="javascript:void(0);" style="display:none;" class="btn action view-less" data-id="<?php echo $j;?>"> View less</a>
+                <?php endif; ?>
+            </div>
+        <?php $j++;} ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require(['jquery', 'underscore'], function($, _) {
+        $(document).ready(function() {
+            
+            var query = $('#txt-search').val();
+
+            if (query.length > 0) {
+                showOneIngredient();
+            }
+
+            $('#txt-search').keyup(_.debounce(function() {
+                    showIngredient();
+                }, 800)
+            );
+            
+            $(".view-more").click(function() {
+                var id = $(this).data('id');
+                $(".extra_val_div_"+id).show();
+                $(this).next('.btn').show();
+                $(this).hide();
+            });
+
+            $(".view-less").click(function() {
+                var id = $(this).data('id');
+                $(".extra_val_div_"+id).hide();
+                $(this).prev('.btn').show();
+                $(this).hide();
+            });
+            
+            $(".ingredient").click(function() {
+                ingredient = $(this).attr('name');
+                $('#txt-search').val(ingredient);
+                showOneIngredient();
+            });
+
+            $('.letter').on('click', function(e) { 
+                var el = $( e.target.getAttribute('href') );
+                var elOffset = el.offset().top;
+                var elHeight = el.height();
+                var windowHeight = $(window).height();
+                var offset;
+
+                if (elHeight < windowHeight) {
+                    offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+                }
+                else {
+                    offset = elOffset;
+                }
+                var speed = 700;
+                $('html, body').animate({scrollTop:offset}, speed);
+            });
+        });
+
+        $('#filter-records').on( 'click', '.result', function () {
+            name = $(this).attr('name');
+            $('#txt-search').val(name);
+            showOneIngredient();
+        });
+
+        function showIngredient() {
+            var data = <?php echo $block->getJsonData(); ?>;
+            var searchField = $('#txt-search').val();
+            $('#filter-records').show();
+            if (searchField === '') {
+                $('#filter-records').html('');
+                $('#filter-records').hide();
+                return;
+            }
+
+            var regex = new RegExp(searchField, "i");
+            var output = '<div class="ingredient-results">';
+            var count = 1;
+            $.each(data, function(key, val) {
+                if(count < 5) {
+                    if (val.name.search(regex) != -1) {
+                        output += '<div class="list">';
+                        if(val.is_organic == "yes") {
+                            output += '<h5 class="result organic" name="' + val.name + '">' + val.name.toUpperCase() + '</h5>';
+                        }else {
+                            output += '<h5 class="result" name="' + val.name + '">' + val.name.toUpperCase() + '</h5>';
+                        }
+                        output += '<span>' + val.type + '</span>';
+                        output += '<p>' + val.description + '</p>'
+                        output += '</div>';
+                        count++;
+                    }
+                }
+                else {
+                    return false;
+                }
+                
+            });
+            output += '</div><div class="row">'
+            output += '</div>';
+            if(count == 1){
+                $('#filter-records').hide();
+                return;
+            }
+            $('#filter-records').addClass("box-shadow");
+            $('#filter-records').html(output);
+        }
+
+        function showOneIngredient() {
+            var data = <?php echo $block->getJsonData(); ?>;
+            var searchField = $('#txt-search').val();
+            $('#filter-records').show();
+            if (searchField === '') {
+                $('#filter-records').html('');
+                $('#filter-records').hide();
+                return;
+            }
+
+            var output = '<div class="ingredient-results">';
+            var count = 1;
+            $.each(data, function(key, val) {
+                if (val.name == searchField) {
+                    output += '<div class="list">';
+                    if(val.is_organic == "yes") {
+                        output += '<h5 class="result organic">' + val.name.toUpperCase() + '</h5>';
+                    }else {
+                        output += '<h5 class="result">' + val.name.toUpperCase() + '</h5>';
+                    }
+                    output += '<span>' + val.type + '</span>';
+                    output += '<p>' + val.description + '</p>'
+                    output += '</div>';
+                    if (count % 2 == 0) {
+                        output += '</div><div class="row">'
+                    }
+                    count++;
+                }
+            });
+            output += '</div>';
+            $('#filter-records').addClass("box-shadow");
+            $('#filter-records').html(output);
+        }
+
+    });
+</script>

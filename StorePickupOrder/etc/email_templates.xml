@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="add_contract_devices_template" label="Store Pickup Order" file="add_contract_devices.html" type="html" module="Albatool_StorePickupOrder" area="frontend"/>  
+    <template id="sales_email_order_cancel_template" label="Order Cancel" file="order_cancel.html" type="html" module="Albatool_StorePickupOrder" area="frontend"/>  
+    <template id="sales_email_order_cancel_pickup_template" label="Pickup Order Cancel" file="pickup_order_cancel.html" type="html" module="Albatool_StorePickupOrder" area="frontend"/>  
+    <template id="sales_email_order_pickup_order" label="Pickup Order Confirmation" file="pickup_order_confirmation.html" type="html" module="Albatool_StorePickupOrder" area="frontend"/>  
+</config>
+
+<!-- here you define your email template and its template location path-->

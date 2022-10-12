@@ -1,0 +1,2 @@
+Which page you are on
+echo $this->getRequest()->getFullActionName(); //catalog_product_view

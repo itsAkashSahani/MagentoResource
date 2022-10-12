@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceContainer name="content">
+        <block class="Albatool\HairSkinQuiz\Block\Consultant\Index" name="hairquiz.index.consultant" template="Albatool_HairSkinQuiz::quiz_consultant_page.phtml" />
+    </referenceContainer>
+</page>

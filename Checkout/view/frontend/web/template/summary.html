@@ -1,0 +1,20 @@
+<div class="opc-block-summary" data-bind="blockLoader: isLoading">
+    <span data-bind="i18n: 'Order Summary'" class="title"></span>
+    <!-- ko foreach: elems() -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!-- /ko -->
+    <!-- ko if: (isVisible()) -->
+        <div class="actions-toolbar-trigger" id="place-order-trigger-wrapper">
+            <!-- ko if: (isPaymentSelected()) -->
+                <button type="button" class="button action primary w-100" id="place-order-trigger" value="Place Order" >
+                    <span data-bind="i18n: 'Order Now'"></span>
+                </button>
+            <!-- /ko -->
+            <!-- ko ifnot: (isPaymentSelected()) -->
+            <button type="button" class="button action primary w-100 disabled" id="place-order-trigger" value="Place Order" >
+                <span data-bind="i18n: 'Order Now'"></span>
+            </button>
+            <!-- /ko -->
+        </div>
+    <!-- /ko -->
+</div>

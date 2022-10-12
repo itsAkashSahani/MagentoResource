@@ -1,0 +1,12 @@
+<?php
+$helper = $this->helper('Albatool\Checkout\Helper\Data');
+$googleApiKey = $helper->getGoogleApiKey();
+?>
+<!-- <input type="text" name="searchBar" id="searchBar">
+<div id="map" class="store-google-map"></div> -->
+
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $googleApiKey; ?>&libraries=places"></script>
+
+<script>
+	var markericon = "<?php echo $this->getViewFileUrl('Albatool_Checkout::images/pin-1.png'); ?>";
+</script>

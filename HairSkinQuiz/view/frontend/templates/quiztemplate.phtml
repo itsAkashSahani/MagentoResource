@@ -1,0 +1,19 @@
+<?php
+?>
+
+
+<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('hair_skin_quiz_blk')->toHtml();?>
+
+<script type="text/javascript">
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+        	$('#start_hair_analysis').click(function() {
+        		//alert("HEY COMING HEREEEEEEEEEEE");
+        		window.location.href = 'hair-skin-quiz-questions?quiz_question_type=hair';
+        	});
+            $('#start_skin_analysis').click(function() {
+                window.location.href = 'skin-quiz-questions?quiz_question_type=skin';
+            });
+        });
+    });
+</script>

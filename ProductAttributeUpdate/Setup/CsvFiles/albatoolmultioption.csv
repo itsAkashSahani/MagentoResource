@@ -1,0 +1,4 @@
+attribute_code,attribute_name,data_type,Options
+age,AGE,select,"4 To 5 Years,Under 20 Years,From 20 To 30 Years,From 30 To 40 Years,From 40 To 50 Years,From 50 To 60 Years,Over 60 Years"
+need,NEED,select,"Highlights Boosting,Anti Hair Loss & Anti Dandruff,Anti-Aging,Anti-Dark Circles And Anti-Puffiness,Anti-Pollution And Blue Light Protection,Beauty,Cleanse,Color Protecting,Curl Enhancement,Exfoliate,Fill In,Firm And Lift,Hydrate,Illuminate,Makeup Remover,Need,Nourish & Repair,Nourishing,Nourrir,Purify & Matify,Purifying And Detoxifying,Regenerate,Repair,Repairing,Shine Enhancing,Silhouette,Slimming,Soothe,Straightening And Frizz Control,Sun Protection,Volumizing,Wellness,Treat,Brilliance,Volume,Smooth Discipline,Sublimate,Soothe Relieve"
+sun_protection,SUN PROTECTION,select,"Sun Protection Factor 6,Sun Protection Factor 15,Sun Protection Factor 20,Sun Protection Factor 30,Sun Protection Factor 50+,No Protection"

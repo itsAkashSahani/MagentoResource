@@ -1,0 +1,6 @@
+$writer = new \Laminas\Log\Writer\Stream(BP . '/var/log/alphabet.log');
+$logger = new  \Laminas\Log\Logger();
+$logger->addWriter($writer);
+
+//For use or to print anything on log :
+$logger->info(json_encode($b->getData()));

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="smsphrases" translate="label" sortOrder="10">
+            <label>SMS Phrases</label>
+        </tab>
+        <section id="sms" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>SMS Phrases</label>
+            <tab>smsphrases</tab>
+            <resource>Albatool_SmsTrigger::sms_config</resource>
+            <group id="content" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Content</label>
+
+                <field id="login" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SMS for Login</label>
+                    <validate>required-entry</validate>
+                </field>
+
+                <field id="signup" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SMS for Signup</label>
+                    <validate>required-entry</validate>
+                </field>
+
+                <field id="homedelivery" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Placed (Home Delivery)</label>
+                    <validate>required-entry</validate>
+                </field>
+
+                <field id="clickandcollect" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Placed (Click and Collect)</label>
+                    <validate>required-entry</validate>
+                </field>
+
+                <field id="paymentdeclined" translate="label" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Payment Decline</label>
+                    <validate>required-entry</validate>
+                </field>
+
+                <field id="ordercancel" translate="label" type="textarea" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Cancelled</label>
+                    <validate>required-entry</validate>
+                </field>
+
+                <field id="readytopick" translate="label" type="textarea" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ready to Pickup</label>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,201 @@
+<?php
+/**
+* @var $block \Magenest\CustomSection\Block\Adminhtml\Order\View\View
+*/
+?>
+<?php 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$model = $objectManager->create('Albatool\StorePickupOrder\Model\Sample');
+$collection = $model->getCollection()->getData();
+$mobile = $block->getMobilenumber();
+$ordeid = $block->getOrderIncrementId();
+$orderData = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($ordeid);
+$OrderTotalDue = number_format($orderData->getTotalDue(), 2);
+$class="enable-custom";
+$otp = 0;
+$order = $block->getOrder();
+$payment = $order->getPayment();
+$orderPayment = $payment->getMethodInstance()->getCode();
+$isPaid = 1;
+
+foreach ($collection as $key => $value)
+{
+   if(($mobile == $value['mobile']) && ($ordeid == $value['order_id']))
+   {
+      $otp = $value['random_code'];
+      if($value['is_verify'] == 1)
+      {
+         $class="disable-custom";
+         break;
+      }  
+   }
+}
+if($block->getOrderShippingMethod() == 'instore_pickup')
+   {?>
+<section class="admin__page-section order-view-billing-shipping">
+   <div class="admin__page-section-title">
+      <?php
+         if($class == "disable-custom"){?>
+            <span class="title" style="color: green;font-weight: 600;">
+            Pickup Store OTP Verification Completed</span><br>
+            <div class="pickup_cod_main_div">
+               <span class="pickup_cod_type_disp">Payment Type:<?php echo $order->getPickupPaymentType();?></span><br>
+               <span class="pickup_cod_desc_disp">Description:<?php echo $order->getPickupPaymentDesc();?></span>
+            </div>
+         <?php
+         }else{?>
+            <span class="title">Pickup Store OTP Verification</span>
+            </div>
+            <div id="<?php echo $class;?>" class="admin__page-section-content">
+               <div class="admin__page-section-item order-payment-method">
+                  <?php if($orderPayment == "cashondelivery"):?>
+                     <?php $isPaid = 0; ?>
+                           <div class="pickup_cod_payment_div">
+                              <label for="cars">Choose Payment Type:</label>
+                              <select name="pickup_cod_payment_type" id="pickup_cod_payment_type" required>
+                                 <option value="">Please Select</option>
+                                 <option value="pickup_cod">Cash</option>
+                                 <option value="pickup_online">Card</option>
+                              </select>
+                              <div id="errPaymentType" class="error"></div>
+                           </div>
+                           <div class="pickup_cod_desc_amount">
+                              <label for="pickup_amount">Amount:</label>
+                              <input type="text" id="pickup_amount" name="pickup_amount">
+                              <div id="errAmount" class="error"></div>
+                           </div>
+                           <div class="pickup_cod_desc_div">
+                              <label for="pickup_cod_desc">Descripiton (if any):</label>
+                              <textarea id="pickup_cod_desc_text" name="pickup_cod_desc_text" rows="4" cols="50"></textarea>
+                           </div>
+                  <?php endif;?>
+                  <div class="admin__page-section-item-title">
+                     <span class="title"><?= __("Enter OTP") ?></span>
+                  </div>
+                  <div class="admin__page-section-item-content">
+                     <div class="order-payment-currency">
+                       <label for="fname"><?= __("Otp Verifiction") ?></label>
+                        <input type="text" id="otp-very" name="otpverify" required><br><br>
+                        <input type="hidden" id="mobilenumber" name="mobilenumber" value="<?php echo $block->getMobilenumber();?>">
+                        <input type="hidden" name="orde-id" id="orde-id" value="<?php echo $block->getOrderIncrementId();?>">
+                        <input type="hidden" name="orde-entityid" id="orde-entityid" value="<?php echo $block->getOrderId();?>">
+                        <div id="errOtp" class="error"></div>
+                        <?php 
+                        if($block->getStatus() != 'pending'){?>
+                          <a class="resend" id="resend-otp" style="cursor: pointer;">Resend</a>
+                        <?php 
+                        }?>
+                        <button type="submit" name="pickup-veify" id="picku-otp"><?php echo __("Verification") ?></button> 
+                        <?php if($otp != 0): ?>
+                           <p id="orderOtp" style="margin-top: 10px;"><?= __("Otp for this order : ") ?><span style="color: green; font-weight: bold;"><?= $otp ?></span></p>
+                        <?php endif; ?>
+                     </div>
+                     <div class="order-payment-additional">
+                     </div>
+                  </div>
+               </div>
+            </div>
+         <?php
+         }
+       ?>
+   
+</section>
+<?php }?>
+
+<script type="text/javascript">
+require(['jquery'], function($) { 
+   $("#resend-otp").hide(0).delay(60000).show(0);
+   $("#resend-otp").click(function(){
+      $("#resend-otp").hide(0);
+      $("#ready_for_pickup").click();
+   });
+
+   jQuery("#picku-otp").click(function(){
+
+      var otp = jQuery("#otp-very").val();
+
+      var mobile = $("#mobilenumber").val();
+      var ordeid = $("#orde-id").val();
+      var orderentityid = $("#orde-entityid").val();
+
+      if(!otp){
+         $("div#errOtp").html("Please Enter the OTP");
+         return false;
+      }
+
+      if(<?php echo $isPaid; ?>) {
+         $.ajax({
+            showLoader: true,
+            url: "<?= $this->getUrl('storepickuporder/standard/verify'); ?>",
+            data: {"otp":otp,"mobile":mobile,"ordeid":ordeid, "paym_type":'Online Payment', "otp_desc":'Online Payment', "orderentityid":orderentityid},
+            type: "POST",
+            dataType: 'json'
+         }).done(function (data) {
+            if(data == 1){
+               alert("Your Verification successfully completed");
+               window.location.reload();
+            }else{
+               alert("Your OTP is Wrong Please try again later");
+            }
+         });
+      }
+      else {
+         var paym_type = jQuery('#pickup_cod_payment_type').val();
+         var otp_desc = jQuery('#pickup_cod_desc_text').val();
+         var pickup_amount = jQuery('#pickup_amount').val();
+
+         $("div#errOtp").hide();
+         if(!paym_type){
+            $("div#errPaymentType").html("Please select Payment type");
+            return false;
+         }
+         if(paym_type != ""){
+            $("div#errPaymentType").hide();
+         }
+         if(!pickup_amount){
+            $("div#errAmount").html("Please Enter the Amount");
+            return false;
+         }
+
+         var total_due = "<?php echo $OrderTotalDue; ?>";
+         if(pickup_amount != total_due){
+            $("div#errAmount").html("Amount Entered is not matching with Total Due.");
+            return false;
+         }
+         if(pickup_amount = total_due){
+            $("div#errAmount").hide();
+         }
+
+         $.ajax({
+              showLoader: true,
+              url: "<?= $this->getUrl('storepickuporder/standard/verify'); ?>",
+              data: {"otp":otp,"mobile":mobile,"ordeid":ordeid, "paym_type":paym_type, "otp_desc":otp_desc, "orderentityid":orderentityid},
+              type: "POST",
+              dataType: 'json'
+         }).done(function (data) {
+            if(data == 1){
+               alert("Your Verification successfully completed");
+               window.location.reload();
+            }else{
+               alert("Your OTP is Wrong Please try again later");
+            }
+         });
+      }
+   });
+});
+</script>
+<style type="text/css">
+#disable-custom
+{
+   pointer-events: none;
+   opacity: 0.4;
+}
+.pickup_cod_desc_amount{
+   padding-top: 10px;
+   padding-bottom: 10px;
+}
+
+.error{
+   color: red;
+}
+</style>

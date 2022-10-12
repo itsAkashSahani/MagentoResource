@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Albatool_SkinQuizConsultant::parent" title="SkinQuizConsultant" module="Albatool_SkinQuizConsultant" sortOrder="100" resource="Albatool_SkinQuizConsultant::parent"/>
+		<add id="Albatool_SkinQuizConsultant::skinquizconsultant" title="SkinQuizConsultant Skinquizconsultant" module="Albatool_SkinQuizConsultant" sortOrder="20" parent="Albatool_SkinQuizConsultant::parent" action="skinquizconsultant/skinquizconsultant" resource="Albatool_SkinQuizConsultant::skinquizconsultant"/>
+
+    </menu>
+</config>

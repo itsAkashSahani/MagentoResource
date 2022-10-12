@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Albatool\StoreLocator\Api\StoreLocatorInterface" type="Albatool\StoreLocator\Model\GetStoreLocations"/>
+	<type name="Magento\Framework\Webapi\Rest\Response\Renderer\Json">
+		<plugin name="storelocator_renderer_json_plugin" type="Albatool\StoreLocator\Plugin\JsonPlugin" sortOrder="100" disabled="false" />
+	</type>
+	<type name="Magento\InventoryApi\Api\SourceRepositoryInterface">
+        <plugin name="plugin_source_save" type="Albatool\StoreLocator\Plugin\SourceSave"/>
+    </type>
+</config>

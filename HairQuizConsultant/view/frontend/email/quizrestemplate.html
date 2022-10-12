@@ -1,0 +1,52 @@
+<!--@subject Quiz Response @-->
+
+<table
+    style="
+    width: 800px;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    "
+    align="center"
+>
+    <tbody>
+    <tr>
+        <td colspan="4">
+        <h1 class="bold">Hiii, {{var name|raw}}</h1>
+        <p>
+            Based on your taken survey, here’s the summary of your hair
+            conditions:
+        </p>
+        <p style="color: #6f7e0d">{{var description|raw}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+        {{var banner_image|raw}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+        {{var beauty_advice|raw}}
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center;">
+            <a href="{{var resultUrl}}" style="height: 25px;font-size: 14px;
+            letter-spacing: 0.7px;
+            line-height: 24px;
+            font-weight: 500;
+            border-radius: 8px;
+            background: #6F7E0D;
+            color: #ffffff;
+            border: 1px solid #6F7E0D;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 35px;
+            cursor: pointer;
+            margin: 10px 0;
+        ">Show My Result</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

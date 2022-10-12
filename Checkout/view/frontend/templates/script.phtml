@@ -1,0 +1,47 @@
+<?php $googleApiKey = $this->helper('Albatool\Checkout\Helper\Data')->getGoogleApiKey();?>
+
+<script type="text/javascript">
+ var markericon = "<?php echo $this->getViewFileUrl('Albatool_Checkout::images/pin-1.png'); ?>";
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $googleApiKey; ?>&libraries=places"></script>
+<script>
+require([
+	'jquery',
+	'Magento_Ui/js/modal/modal'
+], 
+function ($,modal) {
+	$(document).ready(function () {
+		 var options = {
+			type: 'popup',
+			responsive: true,
+			innerScroll: true,
+			buttons: []
+		};
+
+		var popup = modal(options, $('#myModal'));
+		
+		$(document).on('click', '#myModal .close-modal-popup', function(){
+			$('#myModal').modal("closeModal");
+		});
+            
+	});
+});
+</script>
+<style>
+	div[name="shippingAddress.region_id"],div[name="billingAddress.region_id"] {
+    display: none;
+}
+</style>
+<div id="myModal" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	        <div class="modal-body">
+	            <p id="message"></p>
+	        </div>
+	        <div class="modal-footer">
+	            <button type="button" class="btn btn-default close-modal-popup">Close</button>
+	        </div>
+	    </div>
+	</div>
+</div>

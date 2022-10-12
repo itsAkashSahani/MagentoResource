@@ -1,0 +1,13 @@
+{
+    "inventory_source": {
+        "column": {
+            "monday_field": true,
+            "tuesday_field": true,
+            "wednesday_field": true,
+            "thursday_field": true,
+            "friday_field": true,
+            "saturday_field": true,
+            "sunday_field": true
+        }
+    }
+}

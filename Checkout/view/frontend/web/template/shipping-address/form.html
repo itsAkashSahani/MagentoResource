@@ -1,0 +1,29 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form class="form form-shipping-address" id="co-shipping-form" submit="saveNewAddress" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+    <!-- ko foreach: getRegion('before-fields') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+    <div id="shipping-new-address-form" class="fieldset address">
+        <!-- ko foreach: getRegion('additional-fieldsets') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <!-- ko if: (isCustomerLoggedIn) -->
+        <div class="field choice save-in-address-book" data-bind="visible: !isFormInline">
+            <input type="checkbox" class="checkbox" id="new-ship-save-book"/>
+            <label class="label" for="new-ship-save-book">
+                <span data-bind="i18n: 'Save to my address book'"></span>
+            </label>
+        </div>
+        <!-- /ko -->
+    </div>
+	<!-- <div class="proceed-payment-button">
+		<button   type="submit" class="action proceed-payment primary" data-bind="fadeVisible: visible()">
+			<span translate="'Continue To Payment'" />
+		</button>
+	</div> -->
+</form>

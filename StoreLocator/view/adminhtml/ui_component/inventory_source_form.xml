@@ -1,0 +1,103 @@
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <fieldset name="store_time" sortOrder="25">
+        <settings>
+            <label translate="true">Store Timing</label>
+            <collapsible>true</collapsible>
+            <opened>true</opened>
+            <dataScope>general</dataScope>
+        </settings>
+        <field name="monday_field" formElement="input" sortOrder="10">
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>extension_attributes.monday_field</dataScope>
+                <label translate="true">Monday</label>
+            </settings>
+        </field>
+
+        <field name="tuesday_field" formElement="input" sortOrder="20">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>extension_attributes.tuesday_field</dataScope>
+                <label translate="true">Tuesday</label>
+            </settings>
+        </field>
+
+        <field name="wednesday_field" formElement="input" sortOrder="30">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>extension_attributes.wednesday_field</dataScope>
+                <label translate="true">Wednesday</label>
+            </settings>
+        </field>
+
+        <field name="thursday_field" formElement="input" sortOrder="40">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>extension_attributes.thursday_field</dataScope>
+                <label translate="true">Thursday</label>
+            </settings>
+        </field>
+
+        <field name="friday_field" formElement="input" sortOrder="50">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>extension_attributes.friday_field</dataScope>
+                <label translate="true">Friday</label>
+            </settings>
+        </field>
+
+        <field name="saturday_field" formElement="input" sortOrder="60">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>extension_attributes.saturday_field</dataScope>
+                <label translate="true">Saturday</label>
+            </settings>
+        </field>
+
+        <field name="sunday_field" formElement="input" sortOrder="70">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>extension_attributes.sunday_field</dataScope>
+                <label translate="true">Sunday</label>
+            </settings>
+        </field>
+
+    </fieldset>
+</form>

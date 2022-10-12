@@ -1,0 +1,133 @@
+<?php
+	$cookieValue = $this->helper('Albatool\Checkout\Helper\Data')->getCookieRememberMe(); 
+	$email = "";
+	if(isset($cookieValue['guest']) && isset($cookieValue['email'])){
+		$email = $cookieValue['email'];
+	}
+?>
+<section  class="auth-setion checkout-auth">
+	<div class="container">
+		<div class="banner-img">
+			<?php
+				$blockId = $this->helper('Albatool\Checkout\Helper\Data')->getStaticBlockGuest();
+				if(isset($blockId)){
+					echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml();
+				}
+			?>  
+		</div>
+		<div class="auth-form div-height">
+			<div class="section-title">
+				<h3><?= __('Checkout <span>as guest</span>') ?></h3>
+			</div>
+			<div class="loyalty-points">
+				<img src="<?php echo $this->getViewFileUrl('Albatool_Checkout::images/gift_icon.png'); ?>" alt="" class="img-fluid icon"> 
+				<span> 
+					<a href="<?= $block->escapeUrl($block->getUrl('customer/account/login')) ?>" class="page-link"><?php echo __('Login Register now to earn ');?></a>
+					<strong><?php echo __('Loyalty points');?></strong>
+				</span>
+			</div>
+
+			<form class="guest-form-login form"
+				  method="post"
+				  id="login-form"
+				  data-mage-init='{"validation":{}}'>
+				 <h5 class="title"><strong><?= __("With an email address") ?></strong></h5>
+				<?= $block->getBlockHtml('formkey') ?>
+				<fieldset class="fieldset login"> 
+					<!-- input field for email -->
+					<div class="field email required">
+						<div class="control">
+							<label class="label" for="email"><span><?= $block->escapeHtml(__('Email*')) ?></span></label>
+							<input name="username"
+							   id="email" type="email" class="input-text" title="<?php echo __('Email') ?>"
+							   data-validate="{required:true, 'validate-email':true}">
+						</div>
+
+					</div>
+					<div class="field required">
+						<div class="left">
+						  <div class="checkbox">
+							<input type="checkbox" name="remember_me" id="remember-me" class="css-checkbox filled">
+							<label for="remember-me" class="css-label"><?= __("Remember me") ?></label>
+						  </div>
+						  <div class="checkbox control">
+							<input type="checkbox" name="terms_condition" id="terms_condition" data-validate="{required:true}" class="css-checkbox filled">
+							<label for="terms_condition" class="css-label"><?= __('I agree to Yves Roche <a href="%1" target="_blank">Terms and conditions*</a>', $this->getUrl('terms-condition')) ?></label>
+						  </div>
+						  
+						</div>
+						
+					</div>
+					<div class="actions-toolbar">
+						<button type="submit" class="action continue primary" name="send" id="send2"><span><?= $block->escapeHtml(__("CONTINUE")) ?></span></button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+    </div>
+   
+</section>
+
+<script type="text/javascript">
+require([
+	'jquery',
+	'jquery/ui',
+	'mage/validation',
+	'mage/cookies'
+], function($){ 
+
+    var dataForm = $('.guest-form-login');
+    var ignore = null;
+
+    dataForm.mage('validation', {
+        ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+    }).find('input:text').attr('autocomplete', 'off');
+
+    $('.guest-form-login').submit( function(e) {
+        e.preventDefault();
+        var validate =dataForm.validation('isValid');
+        if(validate == true){
+           guestlogin();
+        }
+    });
+
+	function guestlogin(){
+		var url = "<?= $block->escapeUrl($block->getUrl('customer/guest/checkout')) ?>";
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: $(".guest-form-login").serialize(),
+			showLoader: true,
+			cache: false,
+			success: function(response){
+				if(response.success == true){
+					window.location.href = response.url;
+				}
+				if(response.success == false){
+					var html = '<div for="email" generated="true" class="mage-error" id="email-error" style="display: block;">'+response.message+'</div>';
+				    $(html).insertAfter('.guest-form-login #email');
+				}
+			}
+		});		
+	}
+
+	$(document).ready(function() {
+		if($.cookie('guest-email') != null) {
+			$('#email').val($.cookie('guest-email'));
+		}
+	});
+
+	$('#send2').click(function() {
+		var guestemil = $("input#email").val();
+		localStorage.setItem('guest-email', guestemil);
+		var formStatus = $('.guest-form-login').validation('isValid');
+		var rememberMe = $('#remember-me').is(":checked");
+		if(formStatus && rememberMe) {
+			var email = $('#email').val();
+			$.cookie('guest-email', email, { expires : 2 });
+			$.cookie('pass', pass, { expires : 2 });
+		}
+	});
+
+}); 
+</script>

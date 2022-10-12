@@ -1,0 +1,81 @@
+<?php
+
+$storeCode = $block->getRequest()->getParam('store');
+$sourceInfo = $block->getSourcesDetails($storeCode);
+$storeLang = $block->getStoreLang();
+$storeData = $block->getOpeningTiming($sourceInfo);
+$storeBanner = $block->getStoreBanner($sourceInfo);
+
+$date = date('l');
+
+$cmsBlock = 'store_' .  $storeCode . '_' . $storeLang;
+
+$weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+?>
+
+<div class="store-locator">
+	<div class="column container">
+		<div class="main">
+			<div class="page-title">
+				<h1><span><?= __("My Store:") ?></span> <?= $storeData['storeName'] ?></h1>
+			</div>
+			<div class="box-shadow">
+				<div class="storeopening-sec">
+					<?= $storeBanner ?>
+					<div class="open-hours">
+						<div class="title">
+							<h3><?= __("Opening Hours") ?></h3>
+						</div>
+						<table class="opens" width="100%">
+							<tbody>
+								<?php for ($i = 0;$i < 7;$i++): ?>
+									<?php (ucfirst($weekdays[$i]) == $date) ? $active = "class='active'" : $active = '' ?>
+									<tr <?= $active ?>>
+										<th><?= __(ucfirst($weekdays[$i])) ?></th>
+										<?php if ($storeData[$i] == 'none'): ?>
+											<td colspan="2"><?=__("Not Available") ?></td>
+										<?php elseif ($storeData[$i] == 'close'): ?>
+											<td class="close" colspan="2"><?=__("Close") ?></td>
+										<?php else: ?>
+											<td><?= "{$storeData[$i][0]} - {$storeData[$i][1]}" ?></td>
+										<?php endif; ?>
+									</tr>
+								<?php endfor; ?>
+							</tbody>
+						</table>
+						<br>
+						<br>
+						<div class="title">
+							<h3><?= __("Opening Hours") ?> : Stot 2</h3>
+						</div>
+						<table class="opens" width="100%">
+							<tbody>
+								<?php for ($i = 0;$i < 7;$i++): ?>
+									<?php (ucfirst($weekdays[$i]) == $date) ? $active = "class='active'" : $active = '' ?>
+									<tr <?= $active ?>>
+										<th><?= __(ucfirst($weekdays[$i])) ?></th>
+										<?php if (count($storeData[$i]) > 2): ?>
+											<td><?=" {$storeData[$i][2]} - {$storeData[$i][3]}" ?></td>
+										<?php else: ?>
+											<td colspan="2"><?=__("Not Available") ?></td>
+										<?php endif; ?>
+									</tr>
+								<?php endfor; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<?= 
+					$this->getLayout()
+						->createBlock('Magento\Cms\Block\Block')
+						->setBlockId($cmsBlock)
+						->toHtml()
+				?>
+			</div>
+			<div class="page-desc">
+				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('plp_bottom_desc')->toHtml();?>
+			</div>
+		</div>
+	</div>
+</div>

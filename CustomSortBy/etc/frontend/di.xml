@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+        <preference for="Magento\Catalog\Block\Product\ProductList\Toolbar" type="Albatool\CustomSortBy\Plugin\Catalog\Block\Toolbar" />
+        <type name="Magento\Catalog\Model\Config">
+            <plugin name="customsort_custom_catalog_model_config" type="Albatool\CustomSortBy\Plugin\Catalog\Model\Config"/>
+        </type>
+    </config>

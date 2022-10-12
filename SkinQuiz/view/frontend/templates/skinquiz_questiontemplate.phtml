@@ -1,0 +1,395 @@
+<?php
+	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();  
+	$request = $objectManager->get('Magento\Framework\App\Request\Http');  
+	$quiz_question_type = $request->getParam('quiz_question_type');
+	//echo "QUESTION TYPEPPP::".$quiz_question_type;
+?>
+<main class="page-main">
+	<div class="columns">
+		<div class="column main">
+			<div class="container">
+				<div class="quiz-page-step">
+					<div class="left ">
+						<img src="<?php echo $this->getViewFileUrl('images/quiz-banner.png'); ?>" alt="" class="img-fluid">
+					</div>
+					<?php if($quiz_question_type == "skin"){?>
+						<div class="right">
+							<form class="form skin_quiz" id="skin_quiz_form" method="post" action="<?php echo $this->getUrl('skinquiz/index/submit', ['_secure' => true]); ?>" data-mage-init='{"validation":{}}'>
+								<div class="tab_0 content" id="tab_0">
+								<h1 class="page-title"><?= __("Your Personalised Skin Diagnosis") ?></h1>
+								<h4><?= __("Please provide your information for a personalised result!") ?></h4>
+									<fieldset class="fieldset">
+										<div class="field name required">
+											<div class="control">
+												<label class="label" for="name"><span><?= __("Name") ?>*</span></label>
+												<input name="name" value=""  id="name" type="text" class="input-text" data-validate="{required:true}" placeholder="<?= __("Full Name") ?>">
+											</div>
+										</div>
+										<div class="field gender required">
+											<div class="control">
+												<label class="label" for="gender"><span><?= __("Gender") ?>*</span></label>
+												<div class="radio-btn">
+													<input name="gender" value="female" id="gender" type="radio" class="input-text" data-validate="{required:true}">
+													<span class="" for="female"><?= __("Female") ?> </span> 
+												</div>
+												<div class="radio-btn">
+													<input name="gender" value="male" id="gender" type="radio" class="input-text" data-validate="{required:true}">
+													<span class="" for="male"><?= __("Male") ?> </span> 
+												</div>
+											</div>
+										</div>
+										<div class="field medical">
+											<div class="control">
+												<label class="label" for="dob"><span><?= __("Do you have any medical conditions?") ?></span></label>
+												<div class="radio-btn">
+													<input name="medical" value="yes" id="medical" type="radio" class="input-text" >
+													<span class="" for="yes"><?= __("Yes") ?></span> 
+												</div>
+												<div class="radio-btn">
+													<input name="medical" value="no" id="medical" type="radio" class="input-text" >
+													<span class="" for="no"><?= __("No") ?></span> 
+												</div>
+											</div>
+										</div>
+										<div class="action-group">     
+											<!--<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_1">Next</a>-->
+											<a href="javascript:void(0);" id="next_button" class="next action primary"><?= __("Next") ?></a>
+										</div>
+									</fieldset>
+								</div>
+								<div class="tab_1 content" id="tab_1">
+									<h4 class="step-number"><?= __("Question 1/") ?><span><?= __("3") ?></span></h4>
+									<h2 class="page-title"><?= __("Please describe your skin type") ?></h2>
+										<div class="wrap wrap-length">
+											<div id="slider-length-skin-type" class="range-slider"></div>
+										</div>
+									<div class="action-group">
+										<a href="javascript:void(0);" class="back toggle-btn action text-link" data-id="tab_0"><?= __("Back") ?></a>
+										<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_2"><?= __("Next") ?></a>
+									</div>
+								</div>
+								<div class="tab_2 content" id="tab_2">
+									<h4 class="step-number"><?= __("Question 2/") ?><span><?= __("3") ?></span></h4>
+									<h2 class="page-title"><?= __("What is your main concern about your skin") ?></h2>
+									<div class="wrap">
+										<div id="slider-concern-abt-skin" class="range-slider"></div>
+									</div>
+									<div class="action-group">
+										<a href="javascript:void(0);" class="back toggle-btn action text-link" data-id="tab_1"><?= __("Back") ?></a>
+										<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_3"><?= __("Next") ?></a>
+									</div>
+								</div>
+								<div class="tab_3 content" id="tab_3">
+									<h4 class="step-number"><?= __("Question 3/") ?><span><?= __("3") ?></span></h4>
+									<h2 class="page-title"><?= __("What is your beauty routine") ?></h2> 
+									<div class="wrap">
+										<div id="slider_skin_beauty_routine" class="range-slider"></div>
+									</div>
+									<div class="action-group">
+										<a href="javascript:void(0);" class="back toggle-btn action text-link" data-id="tab_2"><?= __("Back") ?></a>
+										<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_4"><?= __("Next") ?></a>
+									</div>
+								</div>
+								<div class="tab_4 content" id="tab_4">
+									<h2 class="page-title"><?= __("Almost there!") ?></h2>
+									<h4 class=""><?= __("Enter your email address here to reveal your results, and receive a surprise gift on us!") ?></h4>
+									<fieldset class="fieldset">
+											<div class="field Email required w-50">
+												<div class="control">
+													<!-- <label class="label" for="name"><span>Name*</span></label> -->
+													<input name="Email" value="" id="email" type="email" class="input-text" placeholder="<?= __("Email") ?>" data-validate="{required:true, 'validate-email':true}">
+												</div>
+											</div>
+											<div class="field">
+												<div class="checkbox">
+													<input type="checkbox" name="special_offers" id="special_offers" class="css-checkbox filled">
+													<label for="special_offers" class="css-label"><?= __('I want to receive special offers from Yves Rocher') ?></label>
+												</div>
+												<div class="checkbox">
+													<input type="checkbox" name="privacy-policy" id="privacy-policy" class="css-checkbox filled required-entry">
+													<label for="privacy-policy" class="css-label"><?= __('I declare that I have read the') ?> <a href="<?php echo $this->getUrl('privacy-and-cookie-policy');?>"><?= __("privacy policy") ?>*</a></label>
+												</div>
+												<div class="checkbox">
+													<input type="checkbox" name="terms" id="terms" class="css-checkbox filled required-entry">
+													<label for="terms" class="css-label"><?= __('I agree to Yves Roche <a href="%1" target="_blank">Terms and conditions*</a>', $this->getUrl('terms-condition')) ?></label>
+												</div>
+											</div>
+									</fieldset>
+									<input type="hidden" id="skin_type_val" name="skin_type_val">
+									<input type="hidden" id="skin_concern_val" name="skin_concern_val">
+									<input type="hidden" id="skin_beauty_val" name="skin_beauty_val">
+									<div class="action-group">
+										<input type="submit" class="action primary form_submit_id" value="<?= __("SUBMIT") ?>">
+									</div>
+								</div>
+							</form>
+						</div>
+					<?php }?>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<script>
+	function selectOption(field, input) {
+		var parent = document.getElementById(field);
+		var element = document.getElementById(input);
+		var spanParent = element.parentElement
+
+		parent.value = element.dataset.option;
+		// console.log(element.value);
+		// parent.value = element.value;
+		// console.log(element.value);
+	}
+</script>
+
+<script type="text/javascript">
+		// Form validation
+		require([
+			'jquery',
+			'mage/validation'
+	], function($){
+
+			var dataForm = $('#skin_quiz_form');
+			var ignore = null;
+
+			dataForm.mage('validation', {
+				
+			}).find('input:text').attr('autocomplete', 'off');
+
+			$('#next_button').click( function() {
+					var status = dataForm.validation('isValid'); //validates form and returns boolean
+					// console.log(status);
+					if(status) {
+						$('#tab_0').hide();
+						$('#tab_1').show();
+					}
+			});
+		});
+		require(['jquery', 'mage/translate', 'jquery/ui', 'slick', 'mage/mage'], function($, $t) {
+			$(document).ready(function() {
+
+				$("#skin_type_val").val('NORMAL');
+				$("#skin_concern_val").val('No specific');
+				$("#skin_beauty_val").val('EXPRESS');
+
+				/*Slider Skin Type 1st Function*/
+					function slider_skin_type(){
+						var labelMap = ['<?php echo __('NORMAL'); ?>', '<?php echo __('MIXTE'); ?>', '<?php echo __('OILY'); ?>', '<?php echo __('DRY'); ?>'];
+						var valMap = ['NORMAL', 'MIXTE', 'OILY', 'DRY'];
+
+						if($(window).width() > 767) {
+							$("#slider-length-skin-type").slider({
+								max: valMap.length - 1,
+								slide: function(event, ui) {
+									$("#radiusAmount").val(valMap[ui.value]);
+									// console.log(valMap[ui.value])
+									$('#slider-length-skin-type .rlabel').removeClass('active');
+									$('#slider-length-skin-type .index'+ui.value).addClass('active');
+								}
+							})
+							.each(function() {
+								var opt = $(this).data().uiSlider.options;
+								var vals = opt.max - opt.min;
+								var arrayLength = valMap.length;
+								for (var i = 0; i < arrayLength; i++) { 
+
+									var el = $('<label class="rlabel '+'index'+(i)+'">' + (labelMap[i]) + '</label>').css('left', (i / vals * 100) + '%');
+
+									$("#slider-length-skin-type").append(el);
+								}
+							});
+						}
+						else {
+							var inputfield = "skin_type_val";
+							valMap.forEach(function(item, index) {
+								var inputId = "q1o" + index +"";
+
+								var el = '<span id="q1Class'+(index)+'" onclick="selectOption(\'' + inputfield +'\', \''+ (inputId) +'\')" data-id="q1Class'+(index)+'" class="rlabel '+'index'+(index)+'"><input id="'+inputId+'" type="text" value="'+ (labelMap[index]) +'" data-option="'+ (valMap[index]) +'" readonly></span>';
+								$("#slider-length-skin-type").append(el);
+
+							})
+						}
+
+						
+					}
+					slider_skin_type();
+				/*End Slider Skin Type 1st Function*/
+				/*Slider Skin Concern 2nd Function*/
+					function slider_skin_concern(){
+						var labelMap = ['<?php echo __('No specific'); ?>', '<?php echo __('Oily'); ?>', '<?php echo __('Dullness'); ?>', '<?php echo __('Imperfections'); ?>', '<?php echo __('Sensitive'); ?>', '<?php echo __('Aging'); ?>', '<?php echo __('Weakness'); ?>', '<?php echo __('Dark spots'); ?>', '<?php echo __('Tired skin'); ?>'];
+						var valMap = ['No specific', 'Oily', 'Dullness', 'Imperfections', 'Sensitive', 'Aging', 'Weakness', 'Dark spots', 'Tired skin'];
+
+						if($(window).width() > 767) {
+							$("#slider-concern-abt-skin").slider({
+								max: valMap.length - 1,
+								slide: function(event, ui) {
+									$("#radiusAmount").val(valMap[ui.value]);
+									// console.log(valMap[ui.value])
+									$('#slider-concern-abt-skin .rlabel').removeClass('active');
+									$('#slider-concern-abt-skin .index'+ui.value).addClass('active');
+								}
+							})
+							.each(function() {
+								var opt = $(this).data().uiSlider.options;
+								var vals = opt.max - opt.min;
+								var arrayLength = valMap.length;
+								for (var i = 0; i < arrayLength; i++) {   
+									
+									var el = $('<label class="rlabel '+'index'+(i)+'">' + (labelMap[i]) + '</label>').css('left', (i / vals * 100) + '%');
+
+									$("#slider-concern-abt-skin").append(el);
+								}
+							});
+						}
+						else {
+							var inputfield = "skin_concern_val";
+							valMap.forEach(function(item, index) {
+								var inputId = "q2o" + index +"";
+
+								var el = '<span id="q2Class'+(index)+'" data-id="q2Class'+(index)+'" class="rlabel '+'index'+(index)+'"><input id="'+inputId+'" onclick="selectOption(\'' + inputfield +'\', \''+ (inputId) +'\')" type="text" value="'+ (labelMap[index]) +'"  data-option="'+ (valMap[index]) +'" readonly></span>';
+								$("#slider-concern-abt-skin").append(el);
+
+							})
+						}
+
+						
+					}
+					slider_skin_concern();
+				/*End Slider Skin Concern 2nd Function*/
+				/*Slider Skin Beauty Routine 3rd Function*/
+					function slider_skin_beauty_routine(){
+						var labelMap = ['<?php echo __('EXPRESS'); ?>', '<?php echo __('CLASSIC'); ?>', '<?php echo __('EXPERT'); ?>'];
+						var valMap = ['EXPRESS', 'CLASSIC', 'EXPERT'];
+
+						if($(window).width() > 767) {
+							$("#slider_skin_beauty_routine").slider({
+								max: valMap.length - 1,
+								slide: function(event, ui) {
+									$("#radiusAmount").val(valMap[ui.value]);
+									// console.log(valMap[ui.value])
+									$('#slider_skin_beauty_routine .rlabel').removeClass('active');
+									$('#slider_skin_beauty_routine .index'+ui.value).addClass('active');
+								}
+							})
+							.each(function() {
+								var opt = $(this).data().uiSlider.options;
+								var vals = opt.max - opt.min;
+								var arrayLength = valMap.length;
+								for (var i = 0; i < arrayLength; i++) {   
+									var el = $('<label class="rlabel '+'index'+(i)+'">' + (labelMap[i]) + '</label>').css('left', (i / vals * 100) + '%');
+
+									$("#slider_skin_beauty_routine").append(el);
+								}
+							});
+						}
+						else {
+							var inputfield = "skin_beauty_val";
+							valMap.forEach(function(item, index) {
+								var inputId = "q3o" + index +"";
+
+								var el = '<span id="q3Class'+(index)+'" data-id="q3Class'+(index)+'" class="rlabel '+'index'+(index)+'"><input id="'+inputId+'" onclick="selectOption(\'' + inputfield +'\', \''+ (inputId) +'\')" type="text" value="'+ (labelMap[index]) +'"  data-option="'+ (valMap[index]) +'" readonly></span>';
+								$("#slider_skin_beauty_routine").append(el);
+
+							})
+						}
+
+						
+					}
+					slider_skin_beauty_routine();
+				/*End Slider Skin Beauty Routine 3rd Function*/
+
+					$('.quiz-page-step .content').eq(0).show();
+					$('.action-group .toggle-btn').click(function(){
+						var id = $(this).data('id');
+						console.log(id);
+
+						if($(window).width() > 767) {
+							/*slider skin type value save*/
+							var slider_skin_type_val = $("#slider-length-skin-type").slider("value");
+							var slider_skin_type_val_var = "NORMAL";
+							if(slider_skin_type_val == 0){
+								slider_skin_type_val_var = "NORMAL";
+							}
+							else if(slider_skin_type_val == 1){
+								slider_skin_type_val_var = "MIXTE";
+							}
+							else if(slider_skin_type_val == 2){
+								slider_skin_type_val_var = "OILY";
+							}
+							else if(slider_skin_type_val == 3){
+								slider_skin_type_val_var = "DRY";
+							}
+							else{
+								slider_skin_type_val_var = "NORMAL";
+							}
+							$("#skin_type_val").val(slider_skin_type_val_var);
+							/*end slider skin type value save*/
+						}
+						
+
+						if($(window).width() > 767) {
+							/*slider skin concern value save*/
+							var slider_skin_concern_val = $("#slider-concern-abt-skin").slider("value");
+							var slider_skin_concern_val_var = "No specific";
+							if(slider_skin_concern_val == 0){
+								slider_skin_concern_val_var = "No specific";
+							}
+							else if(slider_skin_concern_val == 1){
+								slider_skin_concern_val_var = "Oily";
+							}
+							else if(slider_skin_concern_val == 2){
+								slider_skin_concern_val_var = "Dullness";
+							}
+							else if(slider_skin_concern_val == 3){
+								slider_skin_concern_val_var = "Imperfections";
+							}
+							else if(slider_skin_concern_val == 4){
+								slider_skin_concern_val_var = "Sensitive";
+							}
+							else if(slider_skin_concern_val == 5){
+								slider_skin_concern_val_var = "Aging";
+							}
+							else if(slider_skin_concern_val == 6){
+								slider_skin_concern_val_var = "Weakness";
+							}
+							else if(slider_skin_concern_val == 7){
+								slider_skin_concern_val_var = "Dark spots";
+							}
+							else if(slider_skin_concern_val == 8){
+								slider_skin_concern_val_var = "Tired skin";
+							}
+							else{
+								slider_skin_concern_val_var = "No specific";
+							}
+							$("#skin_concern_val").val(slider_skin_concern_val_var);
+						/*end slider skin concern value save*/
+						}
+
+						if($(window).width() > 767) {
+							/*slider skin beauty value save*/
+							var slider_skin_beauty_val = $("#slider_skin_beauty_routine").slider("value");
+							var slider_skin_beauty_val_var = "EXPRESS";
+							if(slider_skin_beauty_val == 0){
+								slider_skin_beauty_val_var = "EXPRESS";
+							}
+							else if(slider_skin_beauty_val == 1){
+								slider_skin_beauty_val_var = "CLASSIC";
+							}
+							else if(slider_skin_beauty_val == 2){
+								slider_skin_beauty_val_var = "EXPERT";
+							}
+							else{
+								slider_skin_beauty_val_var = "EXPRESS";
+							}
+							$("#skin_beauty_val").val(slider_skin_beauty_val_var);
+					/*end slider skin beauty value save*/
+						}
+
+						$('.quiz-page-step .content').hide();
+							$('#'+id).show();
+				});
+			});
+		});
+</script>

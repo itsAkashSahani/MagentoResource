@@ -1,0 +1,122 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div id="store-selector">
+    <div class="block block-search-left store-selector-search">
+		<div class="field select-city" data-bind="blockLoader: isLoading, visible: storecity() && storecity().length">
+			<select class="city-option" data-bind="
+					options: storecity(),
+					optionsText: cityOptionsText,
+					optionsValue: cityOptionsValue,
+					value: selectedCity,
+					event: {change: getStoreByCity(selectedCity)};
+				">
+
+			</select>
+		</div>
+		<!-- ko if: showLocationButtonOnPickup() -->
+			<div class="use-currentloction action primary" data-bind="click:getCurrentLoctionWithStore">
+				<span data-bind="i18n: 'USE CURRENT LOCATION'"></span>
+			</div>
+		<!-- /ko -->
+    </div>
+
+	<div class="store-selector-table" data-bind="blockLoader: isLoading, visible: nearbyLocations() && nearbyLocations().length">
+		<!-- ko foreach: { data: nearbyLocations(), as: 'location' } -->
+
+			<div class="location" data-bind="css: { selected: $parent.isPickupLocationSelected($data) }">
+				<div class="col col-location-details location-details">
+					<p class="location-name">
+						<text args="location.name"/>
+					</p>
+					<p class="location-code">
+						<text args="location.code"/>
+					</p>
+					<p class="location-address">
+						<text args="location.street"/><br/>
+						<text args="location.city"/>, <span text="location.region"></span> <text args="location.postcode"/><br/>
+						<text args="location.country"/>
+					</p>
+
+					<a href="javascript:void(0)" class="store-details" data-bind="i18n: 'View store details'" click="$parent.getViewDetailsStore(location.pickup_location_code)">
+						<span></span>
+					</a>
+
+					<div attr="'class': 'additional-info store-info-' + location.pickup_location_code">
+						<a if="location.telephone" attr="'href': 'tel:' + location.telephone" text="location.telephone"></a>
+						<table>
+							<tr>
+								<th data-bind="i18n: 'Weekday'"></th>
+								<th data-bind="i18n: 'Opening'"></th>
+								<th data-bind="i18n: 'Closing'"></th>
+							</tr>
+							<tr>
+								<td data-bind="i18n: 'Monday'"></td>
+								<td data-bind="text: location.monday_open"></td>
+								<td data-bind="text: location.monday_close"></td>
+							</tr>
+							<tr>
+								<td data-bind="i18n: 'Tuesday'"></td>
+								<td data-bind="text: location.tuesday_open"></td>
+								<td data-bind="text: location.tuesday_close"></td>
+							</tr>
+							<tr>
+								<td data-bind="i18n: 'Wednesday'"></td>
+								<td data-bind="text: location.wednesday_open"></td>
+								<td data-bind="text: location.wednesday_close"></td>
+							</tr>
+							<tr>
+								<td data-bind="i18n: 'Thursday'"></td>
+								<td data-bind="text: location.thursday_open"></td>
+								<td data-bind="text: location.thursday_close"></td>
+							</tr>
+							<tr>
+								<td data-bind="i18n: 'Friday'"></td>
+								<td data-bind="text: location.friday_open"></td>
+								<td data-bind="text: location.friday_close"></td>
+							</tr>
+							<tr>
+								<td data-bind="i18n: 'Saturday'"></td>
+								<td data-bind="text: location.saturday_open"></td>
+								<td data-bind="text: location.saturday_close"></td>
+							</tr>
+							<tr>
+								<td data-bind="i18n: 'Sunday'"></td>
+								<td data-bind="text: location.sunday_open"></td>
+								<td data-bind="text: location.sunday_close"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="col col-location-actions">
+					<div class="location-distance">
+						<text args="location.distance"/>
+					</div>
+					<div class="select-location" ifnot="$parent.isPickupLocationSelected($data)">
+						<span class="product-not-available" if="location.total_product_not_found" data-bind="text: location.total_product_not_found+' product not found'"></span>
+						<button type="button"
+								class="action secondary action-select-shipping-item"
+								data-bind="attr: {'data-storecode': $data.pickup_location_code}"
+								click="$parent.selectPickupLocation.bind($parent, $data)">
+							<translate args="'SELECT STORE'"/>
+						</button>
+					</div>
+					<div class="location-selected" if="$parent.isPickupLocationSelected($data)">
+						<span class="product-not-available" if="location.total_product_not_found" data-bind="text: location.total_product_not_found+' product not found'"></span>
+						<button type="button" class="action secondary" disabled>
+							<span translate="'SELECT STORE'"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+		<!-- /ko -->
+    </div>
+
+	<div class="no-store-found" style="display: none;">
+		<p translate="'No Stores Found'"></p>
+	</div>
+</div>

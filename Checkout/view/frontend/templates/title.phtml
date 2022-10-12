@@ -1,0 +1,15 @@
+<h1 class="page-title">
+	 <a href="<?= $block->escapeUrl($block->getUrl('customerboard/customer/index')) ?>" class="Back-link">&nbsp;</a>
+   <span class="base" data-ui-id="page-title-wrapper">
+   	  <?php echo __("Loyalty points");?></span>          
+</h1> 
+<script type="text/javascript">
+require(['jquery'],function($) {
+//jQuery("body.account.customer-history-loyalty .page-title-wrapper h1.page-title:first-child").remove();
+});
+</script>
+<style type="text/css">
+	body.account.customer-history-loyalty .page-title-wrapper h1.page-title:first-child{
+		display: none;
+	}
+</style>

@@ -1,0 +1,32 @@
+<div class="block">
+<?php 
+$om = \Magento\Framework\App\ObjectManager::getInstance();  
+$customerSession = $om->get('Magento\Customer\Model\Session');  
+$mobilenumber = $customerSession->getCustomer()->getData('mobilenumber'); 
+if($mobilenumber){
+	$points = $block->doRequest($mobilenumber);
+	$Loyalty = $this->helper('Rbj\CategoryWidget\Helper\Data')->getConfig('mycart/general/loylty_text');
+	
+    $currentmonth = $block->pointsCurrmonth($mobilenumber); 
+    
+    ?>
+    <div class="loyalty-point">
+    <div class="box-shadow">
+      <div class="box">
+        <span><?php echo __("Total Loyalty Points Earned"); ?></span>
+        <span><strong><?php echo $points ."=". intdiv($points,$Loyalty)." SAR";?></strong> </span>
+      </div>
+    </div>
+    <div class="box-shadow">
+      <div class="box">
+        <span><?php echo __("This Month Expiring"); ?></span>
+        <span><strong><?php echo $currentmonth; ?></strong> </span>
+      </div>
+    </div>
+  </div>
+    <?php
+}else{?>
+	 <span><strong><?php echo __("Sorry, You have no loyalty points"); ?></strong> </span>
+<?php }
+?> 
+</div>

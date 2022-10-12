@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\User\Block\User\Edit\Tab\Main" type="Albatool\StorePickupOrder\Block\Adminhtml\User\Edit\Tab\Main" />
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Index" type="Albatool\StorePickupOrder\Controller\Adminhtml\Order\Index" />
+    <preference for="Magento\Sales\Model\ResourceModel\Order\Handler\State" type="Albatool\StorePickupOrder\Model\Rewrite\ResourceModel\Order\Handler\State" />
+    <preference for="Magento\InventoryInStorePickupSalesAdminUi\Controller\Adminhtml\Order\NotifyPickup" type="Albatool\StorePickupOrder\Controller\Adminhtml\Order\NotifyPickup" />
+    <preference for="Magento\InventoryInStorePickupSalesAdminUi\Block\Adminhtml\Order\View\ReadyForPickup" type="Albatool\StorePickupOrder\Block\Adminhtml\Order\View\ReadyForPickup" />
+    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="Albatool\StorePickupOrder\Model\Order\Email\Sender\OrderSender" />
+</config>

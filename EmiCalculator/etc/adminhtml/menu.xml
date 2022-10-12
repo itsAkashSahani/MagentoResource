@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+        <add id="Ambab_EmiCalculator::emidetails" title="EMI Options" translate="title" module="Ambab_EmiCalculator" sortOrder="45" dependsOnModule="Ambab_EmiCalculator" resource="Ambab_EmiCalculator::emidetails"/>
+
+        <add id="Ambab_EmiCalculator::options" title="Options" translate="title" module="Ambab_EmiCalculator" parent="Ambab_EmiCalculator::emidetails" sortOrder="50" dependsOnModule="Ambab_EmiCalculator" resource="Ambab_EmiCalculator::options"/>
+
+        <add id="Ambab_EmiCalculator::all_banks" title="All Banks" translate="title" module="Ambab_EmiCalculator" parent="Ambab_EmiCalculator::options" sortOrder="10" dependsOnModule="Ambab_EmiCalculator" action="banks/allbanks" resource="Ambab_EmiCalculator::all_banks"/>
+
+	    <add id="Ambab_EmiCalculator::all_emis" title="EMI Details" translate="title" module="Ambab_EmiCalculator" parent="Ambab_EmiCalculator::options" sortOrder="20" dependsOnModule="Ambab_EmiCalculator" action="banks/emidetails" resource="Ambab_EmiCalculator::all_emis"/>
+
+        <add id="Ambab_EmiCalculator::settings" title="Settings" translate="title" module="Ambab_EmiCalculator" parent="Ambab_EmiCalculator::emidetails" sortOrder="60" dependsOnModule="Ambab_EmiCalculator" resource="Ambab_EmiCalculator::settings"/>
+
+        <add id="Ambab_EmiCalculator::configration" title="Configuration" translate="title" module="Ambab_EmiCalculator" parent="Ambab_EmiCalculator::settings" sortOrder="10" dependsOnModule="Ambab_EmiCalculator" action="adminhtml/system_config/edit/section/emi_control" resource="Ambab_EmiCalculator::configration"/>
+    </menu>
+</config>

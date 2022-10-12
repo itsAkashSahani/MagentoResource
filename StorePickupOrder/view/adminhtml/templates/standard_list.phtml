@@ -1,0 +1,151 @@
+<?php
+$orderCollection = $block->getOrderCollection();
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$extensionUser = $objectManager->get('Magento\Backend\Model\Auth\Session')->getUser()->getData('storepickuporder');
+if(!empty($extensionUser)):?>
+<div class="order-list">
+	<form method="post" action="<?= $block->getActionUrl() ?>" onsubmit="return validateForm()" name="export-order">
+		<input type="hidden" name="form_key" value="<?= $block->getFormKey() ?>">
+		<div class="page-main-actions">
+			<div class="page-actions">
+				<div class="export-option col-xs-2">
+					<div class="action-select-wrap">
+						<input id="myInput" type="text" placeholder="Search..">
+<br><br>
+					</div>
+				</div>
+				<div class="page-actions-buttons">
+					<!-- <button type="submit" class="action- scalable primary"><span>Export</span></button> -->
+				</div>
+			</div>
+		</div>
+		<div class="order-list-table">
+			<table>
+				<thead>
+					<tr class="row100 head">
+						<th class="cell100 column2">Order ID</th>
+						<th class="cell100 column3">Name</th>
+						<th class="cell100 column4">Purchase Point</th>
+						<th class="cell100 column5">Purchase Date</th>
+						<th class="cell100 column5">Grand Total</th>
+						<th class="cell100 column5">Status</th>
+						<th class="cell100 column5">Action</th>
+					</tr>
+				</thead>
+				<tbody id="myTable">
+
+					<?php foreach ($orderCollection as $order): 
+				$pickup_store_code = $block->getDatas($order->getData('entity_id'));
+				$vlue="";
+		         foreach ($pickup_store_code->getData() as $key => $value) {
+		                $vlue = $value['pickup_location_code'];//die;
+		             }
+		             if($extensionUser == $vlue)
+		             	{
+		             		//echo "<pre>";print_r($order->getData());die;
+		             	?>
+							<tr class="row100 body">
+								<td class="cell100 column2"><?= $order->getData('increment_id') ?></td>
+								<td class="cell100 column3">
+									<?= $order->getCustomerName() ?></td>
+								<td class="cell100 column4" style="width: 12%;">
+									<?= $order->getData('store_name') ?>
+								</td>
+								<td class="cell100 column5">
+									<?= $order->getData('created_at') ?>
+								</td>
+								<td class="cell100 column5">
+								   <?= $order->getData('grand_total') ?>
+								</td>
+								<td class="cell100 column5" style="text-transform: capitalize;"> 
+									<?= $order->getData('status') ?>
+								</td>
+								
+								<td class="cell100 column5"><a href="<?php echo $this->getUrl('sales/order/view/').'order_id/'.$order->getId(); ?>" target="_blank">View</a></td>
+							</tr>
+					<?php }
+					 endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+</div>
+
+<?php 
+else :?>
+
+<h2 style="text-transform:uppercase;"><?php echo __("You have no assigned stores");?></h2>
+
+<?php 
+endif;
+?>
+<style type="text/css">
+	.page-actions{
+    /*display: flex;*/
+    align-items: center;
+    justify-content: space-between;
+}
+.action-select-wrap select{
+    width: 100%;
+  min-width: 15ch;
+  max-width: 30ch;
+  padding: 0.25em 0.5em;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1.1;
+}
+.order-list-table table{
+    width: 100%;
+}
+.order-list-table th{
+    background-color: #514943;
+    border: .1rem solid #8a837f;
+    border-left-color: transparent;
+    font-weight: 600;
+    text-align: left;
+    transition: background-color .1s linear;
+    background-clip: padding-box;
+    color: #fff;
+    padding: 1rem 1rem;
+    position: relative;
+    vertical-align: middle;
+}
+.order-list-table tr:nth-child(even){
+    background-color: #fff;
+}
+.order-list-table tr:nth-child(odd){
+        background-color: #f5f5f5;
+}
+.order-list-table td:first-child {
+    border-left-style: solid;
+}
+.order-list-table td:last-child {
+    border-right-style: solid;
+}
+.order-list-table td{
+    border-left: .1rem dashed #d6d6d6;
+    border-right: .1rem dashed #d6d6d6;
+    color: #303030;
+    padding: 1rem 1rem;
+}
+.order-list-table tr:last-child{
+    border-bottom: .1rem solid #d6d6d6;
+}
+select#range {
+    margin-bottom: 20px;
+}
+</style>
+<script type="text/javascript">
+	require(['jquery'],function($){
+		$(document).ready(function(){
+		  $("#myInput").on("keyup", function() {
+		    var value = $(this).val().toLowerCase();
+		    $("#myTable tr").filter(function() {
+		      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		    });
+		  });
+		});
+	});
+
+</script>

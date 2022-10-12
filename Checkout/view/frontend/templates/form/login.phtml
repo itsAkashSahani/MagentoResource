@@ -1,0 +1,487 @@
+<?php 
+$cookieValue = $this->helper('Albatool\Checkout\Helper\Data')->getCookieRememberMe(); 
+$email = "";
+$password = "";
+if(isset($cookieValue['customer']) && isset($cookieValue['email']) && isset($cookieValue['password'])){
+	$email = $cookieValue['email'];
+	$password = $cookieValue['password'];
+}
+?>
+<section  class="auth-setion checkout-auth">
+	<div class="container">
+		<div class="banner-img">
+			<?php
+				$blockId = $this->helper('Albatool\Checkout\Helper\Data')->getStaticBlockGuest();
+				if(isset($blockId)){
+					echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockId)->toHtml();
+				}
+			?>  
+		</div>
+		<div class="auth-form div-height login-email">
+			<div class="section-title">
+				<h3><?= __("My <span>account</span>") ?></h3>
+			</div>
+			<div class="loyalty-points">
+				<img src="<?php echo $this->getViewFileUrl('Albatool_Checkout::images/gift_icon.png'); ?>" alt="" class="img-fluid icon"> 
+				<span><?php echo __('Login Register now to earn ');?><strong><?php echo __('Loyalty points');?></strong>
+				</span>
+			</div>
+			<form class="form form-login"
+				  action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>"
+				  method="post"
+				  id="login-form"
+				  data-bind="mageInit: {'validation': {}}">
+				<?= $block->getBlockHtml('formkey') ?>
+				<h5 class="title"><strong><?php echo __("With an email address");?></strong></h5>
+				<fieldset class="fieldset">
+				   
+					<!-- input field for email -->
+					<div class="field email required">
+						<div class="control">
+							<label class="label" for="email"><span><?= $block->escapeHtml(__('Email*')) ?></span></label>
+							<input name="login[username]" value="<?php echo $email;?>"
+								<?php if ($block->isAutocompleteDisabled()): ?> autocomplete="off"<?php endif; ?>
+								   id="email" type="email" class="input-text" title="<?php echo __('Email') ?>"
+								   data-mage-init='{"mage/trim-input":{}}'
+								   data-validate="{required:true, 'validate-email':true}">
+						</div>
+					</div>
+				   
+					<!-- input field for password -->
+					<div class="field password required">
+						<div class="control">
+							<label for="pass" class="label"><span><?= $block->escapeHtml(__('Password*')) ?></span></label>
+							<input name="login[password]" type="password"
+								<?php if ($block->isAutocompleteDisabled()): ?> autocomplete="off"<?php endif; ?>
+									class="input-text" id="pass" title="<?php echo __('Password') ?>"
+									data-validate="{required:true}"
+									value="<?php echo $password;?>">
+							<i class="icon-eyes toggle-password" toggle="#pass"></i>
+						</div>
+					</div>
+				    <div class="field">
+						<div class="right">
+						  <a href="<?= $block->escapeUrl($block->getForgotPasswordUrl()) ?>" class="forgot-password"><?= $block->escapeHtml(__('RESET YOUR PASSWORD?')) ?></a>
+						</div>
+						<div class="left required">
+							<div class="checkbox">
+								<input type="checkbox" name="remember_me" id="remember-me" class="css-checkbox filled">
+								<label for="remember-me" class="css-label"><?php echo __("Remember me");?></label>
+							</div>
+							<div class="checkbox control">
+								<input type="checkbox" name="terms_condition" id="terms_condition" data-validate="{required:true}" class="css-checkbox filled">
+								<label for="terms_condition" class="css-label"><?= __('I agree to Yves Roche <a href="%1" target="_blank">Terms and conditions*</a>', $this->getUrl('terms-condition')) ?></label>
+							</div>
+						</div>
+						
+					</div>
+					<!-- hidden input field for redirect checkout -->
+					<input name="redirectcheckout" type="hidden" class="input-text" id="redirectcheckout" value="1">
+      
+					<?= $block->getChildHtml('form_additional_info') ?>
+					<div class="actions-toolbar">
+						<button type="submit" class="action login primary" name="submit" id="send2"><span><?= $block->escapeHtml(__('LOGIN')) ?></span></button>
+						<span class="or"><?php echo __("or");?></span>
+						<a href="javascript:void(0);" class="action login-with-otp secondary"><?php echo __("LOGIN WITH OTP");?></a> 
+					</div>
+				</fieldset>
+			</form>
+			<a href="<?= $block->escapeUrl($block->getUrl('customer/account/guest')) ?>" class="section-title guest-login page-link">
+                <h3><?= __('Checkout <span>as guest</span>') ?></h3>
+            </a>
+			<a href="<?= $block->escapeUrl($block->getUrl('customer/account/create')) ?>" class="section-title create-account page-link bt-0 mt-0">
+				<h3><?= __('Create') ?> <span><?= __('an account') ?></span></h3>
+			</a>
+		</div>
+		<div class="auth-form div-height login-otp">
+			<div class="section-title">
+				<h3><?= __("My <span>account</span>") ?></h3>
+			</div>
+			<div class="loyalty-points">
+				<span><?php echo __('We use your email or your identity information only once to complete the form. We do not collect any other data from Facebook or Google. You can exercise your access, rectification or cancellation rights to [privacy@yrnet.com].');?></span>
+			</div>
+			<section id="ajaxotplogin" class="authorization-section ajaxotplogin">
+				<form class="form">
+					<div class="login-type">
+					   <h5 class="title"><strong><?php echo __('With your mobile number*');?></strong></h5>
+					</div>
+					<div class="create-account-page-main-div fieldset form">
+					   <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/sentotpbyreg"); ?>" class="setdotpurl" />
+					   <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/ajaxverifyOtpForLogin"); ?>" class="loginotp-verify-url" />
+
+					   <input type="hidden" value="<?= $block->escapeUrl($block->getUrl('mobilelogin/index/ajaxsentotpforlogin')) ?>" class="loginotp-otp-url">
+					   
+					   <input type="hidden" value="<?= $block->escapeUrl($block->getUrl('checkout')) ?>" class="checkouturl">
+
+					   <div id="create-account-page" class="login-window account-login">
+						  <div class="mobileget fgf">
+							 <div class="otp-content fieldset field">
+								<label for="mobileget" class="label required my-class">
+								   <label><?php echo __('Mobile number'); ?><sup>*</sup></label>
+								</label>
+								<input type="text" value="" id="mobile-mobileget" class="mobnumber" title="<?php echo __('Mobile Number') ?>" placeholder="<?= __("5XXXXXXXX") ?>" name="mobilenumber" maxlength="9" />
+								<input type="hidden" value="" id="countryreg" name="countryreg" />
+								<div class="mobileotpsenderror error1" style="display:none">
+								   <span><?php echo __("Please enter valid mobile number."); ?></span>
+								</div>
+								<div class="mobiledatatype error1" style="display:none">
+								   <span><?php echo __("Mobile number should only contain numbers."); ?></span>
+								</div>
+								<div class="loginsendotperror error1" style="display:none">
+									<span><?php echo __("You are not registered. Please click on Create an account"); ?></span>
+								</div>
+								
+								<div class="blankerror error1" style="display:none">
+								   <span><?php echo __("Required fields cannot be empty"); ?></span>
+								</div>
+								<div class="mobileNotValid error1" style="display:none">
+								   <span><?php echo __("Please Enter 9 Digit Valid Mobile Number"); ?></span>
+								</div>
+							 </div>
+							 <div class="submitbtnajax btn-group action-toolbar d-flex v-align-center text-center field">
+								<input type="button" style="display: none;" class="btn regi-sendotp button action primary disabled" value="<?php echo __("GET OTP"); ?>" />
+							 </div>
+						  </div>
+						  <div class="otpverify" style="display: none;">
+							 <div class="otp-content fieldset">
+								<div class="form-group">
+								   <div class="form-control">
+									  <input type="text" value="" name="enter-otp" id="mobile-otp" class="input-text" maxlength="<?php echo $this->helper('Magenman\Mobilelogin\Helper\Data')->getOtpStringlenght() ?>" />
+									  <label class="label" for="enter-otp">
+										 <?php echo __('Enter OTP') ?>
+									  </label>
+								   </div>
+								</div>
+								<div class="checkotperror error1" style="display:none;">
+								   <span><?php echo __("Incorrect OTP, Please Verify Again."); ?></span>
+								</div>
+								<div class="otpcheck error1" style="display:none;">
+									<span><?php echo __("OTP should only contain numbers."); ?></span>
+								</div>
+								<div class="expiredotp error1" style="display: none;">
+									<span><?php echo __("OTP has been expired"); ?></span>
+								</div>
+								<div class="blankerror blankotperror error1" style="display:none;">
+								   <span><?php echo __("Required fields cannot be empty."); ?></span>
+								</div>
+								<div class="model-bottom">
+								   <div class="submitbtnajax btn-group action-toolbar w-100">
+                  						<a href="javascript:void(0);" class="regi-sendotp resend_one"><?php echo __("Resend OTP"); ?></a>
+               						</div>
+								</div>
+								<div class="progress-indicator">
+								   <span class="please-wait" id="reg-otp-verify-please-wait" style="display:none;">
+									  <img src="<?php echo
+												  $block->getViewFileUrl('Magenman_Mobilelogin::images/ajax-loader.gif'); ?>" class="v-middle" alt="" />
+								   </span>
+								</div>
+							 </div>
+						  </div>
+						<div class="customer-progress-indicator" style="display:none">
+							<span class="customer-please-wait" id="customer-register-wait">
+								<img src="<?php echo $block->getViewFileUrl('Magenman_Mobilelogin::images/ajax-loader.gif'); ?>" class="v-middle" alt="" />
+							</span>
+						</div>
+					</div>
+					<div class="actions-toolbar">
+
+						<div class="submitbtnajax">
+							<input type="button" style="display: none;" class="mobileverifyotp button primary action btn btn-bg" value="<?php echo __('Verify OTP') ?>" />
+						</div>
+
+						<button type="button" class="checkoutloginotpbtn action login primary" name="get-otp" id="get-otp" disabled><span><?= $block->escapeHtml(__('GET OTP')) ?></span></button>
+						<span class="or"><?php echo __("or");?></span>
+						<a href="javascript:void(0);" class="action login-with-email secondary"><?php echo __("LOGIN WITH EMAIL");?></a> 
+					</div>
+				</form>
+				<a href="<?= $block->escapeUrl($block->getUrl('customer/account/guest')) ?>" class="section-title guest-login page-link">
+                	<h3><?= __('Checkout <span>as guest</span>') ?></h3>
+            	</a>
+				<a href="<?= $block->escapeUrl($block->getUrl('customer/account/create')) ?>" class="section-title create-account page-link bt-0 mt-0">
+					<h3><?= __("Create <span>an account</span>") ?></h3>
+				</a>
+			</section>
+		</div>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Customer/js/block-submit-on-send": {
+                    "formId": "login-form"
+                },
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "showPassword": {
+                            "component": "Magento_Customer/js/show-password",
+                            "passwordSelector": "#pass"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+	
+	<script type="text/javascript">
+	require([
+	'jquery'
+	], function($){ 
+		$(document).ready(function(){
+			$('.auth-form.login-otp').hide();
+			$('.actions-toolbar .login-with-otp').on('click',function(){
+				$('.auth-form.login-email').hide();
+				$('.auth-form.login-otp').show();
+			});
+			$('.actions-toolbar .login-with-email').on('click',function(){
+				$('.auth-form.login-email').show();
+				$('.auth-form.login-otp').hide();
+			});
+		});
+	}); 
+	</script>
+	<script>
+         var custregiti = "";
+         require(['jquery', 'mage/translate', 'jquery/ui', 'mage/mage', 'mage/validation', 'Magenman_Mobilelogin/js/intlTelInput', 'mage/cookies'], function($, $t) {
+            jQuery("form#form-validate .submit.primary").prop('disabled', true);
+            var custreginput = document.querySelector("#mobile-mobileget"),
+               custregerrorMsg = document.querySelector("#mobileNotValid");
+            // here, the index maps to the error code returned from getValidationError - see readme
+            var custregerrorMap = [$t("Invalid number"), $t("Invalid country code"), $t("Too short"), $t("Too long"), $t("Invalid number")];
+
+            // initialise plugin
+            console.log("custreginput");
+            console.log(custreginput);
+
+            // var custregiti = window.intlTelInput(custreginput, {
+            //    utilsScript: "<?php echo $this->getViewFileUrl('Magenman_Mobilelogin::js/utils.js'); ?>"
+            // });
+            // custregiti.setCountry('SA');
+
+            // jQuery.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+            //    custreginputcountryCode = (resp && resp.country) ? resp.country : "SA";
+            //    //custregiti.setCountry(custreginputcountryCode);
+            //    custregiti.setCountry("SA");
+            // });
+
+
+            var custregiti = window.intlTelInput(custreginput, {
+               utilsScript: "<?php echo $this->getViewFileUrl('Magenman_Mobilelogin::js/utils.js'); ?>",
+               hiddenInput: "mobilenumber",
+               //preferredCountries: ["sa"],
+               //excludeCountries: ["cn"],
+               onlyCountries: ["sa"],
+               separateDialCode: true
+            });
+
+
+            var reset = function() {
+               custreginput.classList.remove("error");
+               custregerrorMsg.innerHTML = "";
+            };
+
+            // on blur: validate
+            custreginput.addEventListener('blur', function() {
+               reset();
+               if (custreginput.value.trim()) {
+                  if (custregiti.isValidNumber()) {} else {
+                     console.log("10number");
+                     var custregerrorCode = custregiti.getValidationError();
+                     custregerrorMsg.innerHTML = custregerrorMap[custregerrorCode];
+
+                  }
+               }
+            });
+
+			$(document).ready(function() {
+				if($.cookie('email') != null && $.cookie('pass') != null) {
+					$('#email').val($.cookie('email'));
+					$('#pass').val($.cookie('pass'));
+				}
+			});
+
+			$('#send2').click(function() {
+				var formStatus = $('#login-form').validation('isValid');
+				var rememberMe = $('#remember-me').is(":checked");
+				if(formStatus && rememberMe) {
+					var email = $('#email').val();
+					var pass = $('#pass').val();
+					$.cookie('email', email, { expires : 2 });
+					$.cookie('pass', pass, { expires : 2 });
+				}
+			});
+
+			jQuery(".checkoutloginotpbtn").click(function(e) {
+
+				// var filter = /^[0-9-+]+$/;				
+				var loginmobile = jQuery("#mobile-mobileget").val();
+				jQuery('#customer-progress-indicator').css('display', 'block');
+				
+				jQuery(".blankerror").css('display','none');
+				jQuery(".mobileNotValid").css('display','none');
+
+				if(loginmobile.length == 0){
+					jQuery(".blankerror.error1").css('display','block');
+					jQuery('#customer-progress-indicator').css('display', 'none');
+
+					return false;
+				}
+
+				else if(loginmobile.length != 9){
+					// jQuery(".mobileotpsenderror.error1").css('display','none');
+					jQuery(".mobileNotValid.error1").css('display', 'block');
+					jQuery('#customer-progress-indicator').css('display', 'none');
+					return false;
+				}
+
+				// if(!filter.test(loginmobile)) {
+				// 	console.log("Testing");
+				// }
+				
+				var mobile = loginmobile;
+				var url = jQuery(".loginotp-otp-url").val();
+				// // //jQuery("#login-sms-please-wait").css('display','block');
+				jQuery(".loginotpmobbtn").css('display','none');
+				jQuery(".loginsendotperror").css('display', 'none');
+
+				jQuery.ajax({
+					url: url,
+					type:'GET',
+					showLoader: true,
+					data:{mobile:mobile},
+					success: function(data) {
+						console.log(data.errors);
+						if(data.errors){
+							jQuery('#customer-progress-indicator').css('display', 'none');
+							jQuery(".otpverify").css('display', 'block');
+							jQuery(".regi-sendotp .resend_one").css('display', 'block');
+							jQuery(".checkoutloginotpbtn").css("display", 'none');
+							jQuery(".mobileverifyotp").css("display", 'block');
+							// var mobotp = jQuery("#mobile-otp").val();
+							// var mobcode =jQuery(".selected-dial-code").html();
+							// jQuery("#otp-verify #mob-otp").html(mobile);
+						}
+						else{
+							jQuery(".loginsendotperror").css('display','block');
+							jQuery(".checkoutloginotpbtn").css('display','block');;
+						}
+					},
+					error: function() {
+						jQuery('#customer-progress-indicator').css('display', 'none');
+						jQuery(".checkoutloginotpbtn").css('display','block');
+					}
+				});
+			});
+
+			// Otp Validatio
+			jQuery(".mobileverifyotp").click(function(e) {
+				var otp =  jQuery("#mobile-otp").val();
+				var mobile = jQuery("#mobile-mobileget").val();
+				console.log(otp);
+				var checkouturl = jQuery('.checkouturl').val();
+				jQuery(".blankotperror").css('display','none');
+				jQuery(".expiredotp").hide();
+
+				if(isBlank(otp) == false){
+					jQuery(".blankotperror").css('display','block');
+					console.log("This is test");
+					return false;
+				}
+
+				jQuery(".checkotperror").css('display','none');
+				jQuery("#reg-otp-verify-please-wait").css('display','block');
+				jQuery(".verifyotp").css('display','none');
+				// jQuery(this).prop('disabled',true);
+				jQuery.ajax({
+					url: jQuery(".loginotp-verify-url").val(),
+					type: 'GET',
+					data:{otp:otp,mobile:mobile},
+					success: function(data) {
+						console.log(data);
+						// jQuery(".verifyotp").css('display','block');
+						jQuery("#reg-otp-verify-please-wait").css('display','none');
+						if(data == 'expired') {
+							jQuery(".expiredotp").show();
+						}
+						else if(data == 'true'){
+							console.log(checkouturl);
+							window.location.href = checkouturl;
+						}
+						else{
+							jQuery(".checkotperror").css('display','block');
+							// jQuery(".checkotperror").html('Incorrect OTP, Please Verify Again.');
+						}
+						jQuery(".blankotperror").css('display','none');
+						jQuery('.mobileverifyotp').prop('disabled',false);
+					},
+					error: function() {
+						jQuery("#reg-otp-verify-please-wait").css('display','none');
+						console.log("Hiiiiii");
+						jQuery(".verifyotp").css('display','block');
+						jQuery(this).prop('disabled',false);
+
+					}
+					
+				});
+
+			});
+
+			function isBlank(value)
+			{
+				if(!value)
+				{
+					return false;
+				}
+			}
+
+			$('#mobile-mobileget').keypress(function(event){
+				return /^[0-9]*$/.test(event.key)
+			});
+
+			$("#mobile-mobileget").keyup(function(){
+				if ($("#mobile-mobileget").val().length == 9) {
+					var filter = /^[0-9-+]+$/;				
+					var loginmobile = jQuery("#mobile-mobileget").val();
+
+					if(filter.test(loginmobile)) {
+						console.log("Testing");
+						$(".mobiledatatype").hide();
+						$(".checkoutloginotpbtn").prop('disabled', false);
+					}
+					else {
+						$(".mobiledatatype").show();
+						$(".checkoutloginotpbtn").prop('disabled', true);
+					}
+				}
+				else {
+					$(".checkoutloginotpbtn").prop('disabled', true);
+				}
+			});
+
+
+			$("#mobile-otp").keyup(function(){
+				var filter = /^[0-9-+]+$/;
+				var otp = $("#mobile-otp").val();
+				$(".otpcheck").hide();
+				$(".error1").hide();
+
+
+				if(otp.length == 4) {
+					console.log("Validated");
+					if(filter.test(otp)) {
+						$(".mobileverifyotp").removeClass("disabled");
+					}
+					else {
+						$(".otpcheck").show();
+						$(".mobileverifyotp").addClass("disabled");
+					}
+				}
+				else {
+					$(".mobileverifyotp").addClass("disabled");
+				}
+
+
+			});
+
+         });
+      </script>
+
+</section>

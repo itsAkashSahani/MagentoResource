@@ -1,0 +1,182 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<!--Shipping method template-->
+<div class="box-shadow" data-bind="fadeVisible: visible(),attr:{'data-method-name': getShippingMethodName()}">
+	
+	<li id="search-result-store"
+		class="search-result-store"
+		ifnot="showShippingAddress()">
+		<each args="getRegion('store_selector')" render="" />
+		
+	</li>
+	<li id="opc-google-map"
+		class="checkout-google-map"
+		data-bind="fadeVisible: visible()">
+		<each args="getRegion('google-map')" render="" />
+		
+	</li>
+	<li id="shipping" class="checkout-shipping-address" data-bind="fadeVisible: showShippingAddress()">
+		<div class="section-title" data-role="title" >
+			<h3>Delivery<span> Address</span></h3>
+		</div>
+		<div id="checkout-step-shipping"
+			 class="step-content"
+			 data-role="content">
+			<!-- ko if: quoteHaveNotEmail() -->
+				<each if="!quoteIsVirtual" args="getRegion('customer-email')" render="" />
+			<!-- /ko -->
+
+			<each args="getRegion('address-list-additional-addresses')" render="" />
+
+			<div id="opc-new-shipping-address"
+					 render="shippingFormTemplate" />
+
+			<each args="getRegion('before-form')" render="" />
+
+			<!-- Inline address form -->
+			<!--<render if="isFormInline" args="shippingFormTemplate" />-->
+			<div id="billing-address-container">
+				<div class="billing-address-same-as-shipping-block field choice">
+					<input type="checkbox" name="billing-address-same-as-shipping"
+						   data-bind="checked: isAddressSameAsShipping, click: useShippingAddress, attr: {id: 'billing-address-same-as-shipping-shared'}"/>
+					<label data-bind="attr: {for: 'billing-address-same-as-shipping-shared'}"><span
+							data-bind="i18n: 'Billing address is same as Delivery address.'"></span></label>
+				</div>
+				<div class="form-billing-address here" data-bind="visible: isShowBillingForm">
+					<each args="getRegion('billing-address')" render=""/>
+				</div>
+			</div>
+			</div>
+			<!-- test -->
+			<div class="hidden hide-shipping-method">
+		<li id="opc-shipping_method"
+			class="checkout-shipping-method"
+			data-bind="fadeVisible: visible(), blockLoader: isLoading"
+			role="presentation">
+			<div class="checkout-shipping-method">
+				<each args="getRegion('before-shipping-method-form')" render="" />
+
+				<div id="checkout-step-shipping_method"
+					 class="step-content"
+					 data-role="content"
+					 role="tabpanel"
+					 aria-hidden="false">
+					<form id="co-shipping-method-form"
+						  class="form methods-shipping"
+						  if="rates().length"
+						  submit="setShippingInformation"
+						  novalidate="novalidate">
+
+						<render args="shippingMethodListTemplate"/>
+
+						<div id="onepage-checkout-shipping-method-additional-load">
+							<each args="getRegion('shippingAdditional')" render="" />
+						</div>
+						<div role="alert"
+							 if="errorValidationMessage().length"
+							 class="message notice">
+							<span text="errorValidationMessage()" />
+						</div>
+						<div class="actions-toolbar" id="shipping-method-buttons-container">
+							<div class="primary">
+								<button data-role="opc-continue" type="submit" class="button action continue primary" data-bind="visible: displayDefaultButton()">
+									<span translate="'Next'" />
+								</button>
+							</div>
+						</div>
+					</form>
+					<div class="no-quotes-block"
+						 ifnot="rates().length > 0"
+						 translate="'Sorry, no quotes are available for this order at this time'" />
+				</div>
+			</div>
+		</li>
+	</div>
+	<!-- test end -->
+			<div id="checkout-step-shipping_method"
+		     class="step-content"
+		     data-role="content"
+		     role="tabpanel"
+		     aria-hidden="false">
+		    <form id="co-shipping-method-form"
+		          class="form methods-shipping"
+		          if="rates().length"
+		          submit="setShippingInformation"
+		          novalidate="novalidate">
+
+		        <div class="proceed-payment-button">
+					<button   type="submit" class="action proceed-payment proceed-payment-main primary mt-20" data-bind="fadeVisible: visible()">
+						<span translate="'CONTINUE TO PAYMENT'" />
+					</button>
+				</div>
+		    </form>
+		    <div class="no-quotes-block"
+		         ifnot="rates().length > 0"
+		         translate="'Sorry, no quotes are available for this order at this time'" />
+		</div>
+	</li>
+
+	<!--Shipping method template-->
+	<li id="opc-shipping_method"
+	    class="checkout-shipping-method"
+	    data-bind="fadeVisible: visible(), blockLoader: isLoading"
+	    role="presentation">
+	    
+		<!-- <each args="getRegion('before-shipping-method-form')" render="" /> -->
+
+		<div id="checkout-step-shipping_method"
+		     class="step-content"
+		     data-role="content"
+		     role="tabpanel"
+		     aria-hidden="false">
+		    <form id="co-shipping-method-form"
+		          class="form methods-shipping"
+		          if="rates().length"
+		          submit="setShippingInformation"
+		          novalidate="novalidate">
+
+		        <!-- <render args="shippingMethodListTemplate"/> -->
+<!-- 
+		        <div id="onepage-checkout-shipping-method-additional-load">
+		            <each args="getRegion('shippingAdditional')" render="" />
+		        </div> -->
+		        <div role="alert"
+		             if="errorValidationMessage().length"
+		             class="message notice">
+		            <span text="errorValidationMessage()" />
+		        </div>
+		        <!-- <div class="actions-toolbar" id="shipping-method-buttons-container">
+		            <div class="primary">
+		                <button data-role="opc-continue" type="submit" class="button action continue primary">
+		                    <span translate="'Next'" />
+		                </button>
+		            </div>
+		        </div> -->
+		    </form>
+		    <div class="no-quotes-block"
+		         ifnot="rates().length > 0"
+		         translate="'Sorry, no quotes are available for this order at this time'" />
+		</div>
+	</li>
+		<!--billing method template-->
+		<li id="opc-shipping_method"
+	    class="checkout-shipping-method"
+	    data-bind="fadeVisible: showShippingAddress(), blockLoader: isLoading"
+	    role="presentation">
+	    <div class="checkout-shipping-method">
+	
+		<each args="getRegion('before-shipping-method-form')" render="" />
+
+		
+	</li>
+	<div class="proceed-payment-button" data-bind="fadeVisible: visible()">
+		<button type="submit" class="action proceed-payment primary" data-bind="fadeVisible: !showShippingAddress(),click: proceedToPayment" >
+			<span translate="'Place Order'"></span>
+		</button>
+	</div>
+</div>

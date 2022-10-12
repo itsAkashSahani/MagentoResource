@@ -1,0 +1,46 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: isActive() -->
+<div class="gift-message">
+    <div class="gift-options-content">
+        <fieldset class="fieldset">
+            <div class="field field-to">
+                <div class="control">
+                    <input type="text"
+                           class="input-text"
+                           data-bind="value: getObservable('recipient'), attr: { id: 'gift-message-whole-to-' + index, placeholder: $t('Recipent Name')}">
+                </div>
+            </div>
+            <div class="field text">
+                <div class="control">
+                    <textarea id="gift-message-whole-message"
+                              class="input-text"
+                              rows="5" cols="10"
+                              data-bind="value: getObservable('message'),
+							  attr: {placeholder: $t('Message')}"></textarea>
+                </div>
+            </div>
+			<div class="field field-from">
+                <div class="control">
+                    <input type="text"
+                           class="input-text"
+                           data-bind="value: getObservable('sender'), attr: { id: 'gift-message-whole-from-' + index,placeholder: $t('Sender Name')}">
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<!-- /ko -->
+<div class="actions-toolbar">
+    <div class="secondary">
+        <button type="submit" class="action secondary action-update" data-bind="
+                    attr: {title: $t('Submit')},
+                    click: $data.submitOptions.bind($data)">
+            <span data-bind="i18n: 'Submit'"></span>
+        </button>
+    </div>
+</div>

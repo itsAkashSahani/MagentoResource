@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="admin_user" resource="default" engine="innodb" comment="Admin User Table">
+        <column xsi:type="varchar" name="storepickuporder" nullable="true" length="255" comment="Store Pickup Order"/>
+        <column xsi:type="int" name="is_show_otp" nullable="true" comment="Is Admin Can See OTP"/>
+    </table>
+    <table name="sales_order" resource="sales" engine="innodb" comment="Sales Order">
+        <column xsi:type="varchar" name="pickup_sent" nullable="true" comment="Pickup notify Email"/>
+        <column xsi:type="timestamp" name="pickup_cencledt" nullable="true" comment="Pickup Cencal date"/>
+        <column xsi:type="varchar" name="pickup_payment_type" nullable="true" comment="Pickup Payment Type"/>
+        <column xsi:type="text" name="pickup_payment_desc" nullable="true" comment="Pickup Payment Desc"/>
+    </table>
+    <table name="sales_order_grid" resource="sales" engine="innodb" comment="Sales Order">
+         <column xsi:type="varchar" name="pickup_sent" nullable="true" comment="Pickup notify Email"/>
+         <column xsi:type="timestamp" name="pickup_cencledt" nullable="true" comment="Pickup Cencal date"/>
+         <column xsi:type="varchar" name="pickup_payment_type" nullable="true" comment="Pickup Payment Type"/>
+         <column xsi:type="text" name="pickup_payment_desc" nullable="true" comment="Pickup Payment Desc"/>
+    </table>
+    <table name="quote" resource="checkout" engine="innodb" comment="Quote">
+         <column xsi:type="varchar" name="pickup_sent" nullable="true" comment="Pickup notify Email"/>
+         <column xsi:type="timestamp" name="pickup_cencledt" nullable="true" comment="Pickup Cencal date"/>
+    </table>
+    <table name="sales_invoice" resource="sales" engine="innodb" comment="Sales Invoice">
+         <column xsi:type="varchar" name="pickup_sent" nullable="true" comment="Pickup notify Email"/>
+         <column xsi:type="timestamp" name="pickup_cencledt" nullable="true" comment="Pickup Cencal date"/>
+         <column xsi:type="varchar" name="pickup_payment_type" nullable="true" comment="Pickup Payment Type"/>
+         <column xsi:type="text" name="pickup_payment_desc" nullable="true" comment="Pickup Payment Desc"/>
+    </table>
+    <table name="sms_pickup_otp" resource="default" engine="innodb" comment="sms_pickup_otp">
+          <column xsi:type="int" name="id" padding="11" unsigned="false" nullable="false" identity="true" comment="Id"/>
+          <column xsi:type="varchar" name="random_code" nullable="true" comment="random code"/>
+          <column xsi:type="varchar" name="mobile" nullable="true" comment="mobile number"/>
+          <column xsi:type="varchar" name="order_id" nullable="true" comment="Order Id"/>
+          <column xsi:type="int" name="is_verify" nullable="true" comment="is_verify"/>
+          <column xsi:type="timestamp" name="created_at" on_update="true" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+          <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+</schema>
+
+
+
+
+
+

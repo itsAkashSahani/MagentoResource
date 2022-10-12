@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+    <link src="Albatool_Checkout::js/check_custom.js"/>
+    </head>
+	<body>
+		<referenceContainer name="content">
+         <block class="Magento\Framework\View\Element\Template" name="google-map-script" template="Albatool_Checkout::script.phtml" />
+		 <block class="Magento\GiftMessage\Block\Cart\GiftOptions" name="checkout.order.actions.gift_options" template="Albatool_Checkout::gift_options.phtml" cacheable="false" />
+        </referenceContainer>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+								<item name="errors" xsi:type="array">
+									<item name="component" xsi:type="string">Magento_Ui/js/view/messages</item>
+									<item name="displayArea" xsi:type="string">messages</item>
+								</item>
+								<item name="authentication" xsi:type="array">
+									<item name="config" xsi:type="array">
+										<item name="componentDisabled" xsi:type="boolean">true</item>
+									</item>
+								</item>
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">	
+										<!-- The new step you add -->
+                                        <!--<item name="login_step" xsi:type="array">
+                                            <item name="component" xsi:type="string">Albatool_Checkout/js/view/login-setup</item>
+                                            <item name="sortOrder" xsi:type="string">1</item>
+                                            <item name="children" xsi:type="array">
+												<item name="errors-message" xsi:type="array">
+													<item name="sortOrder" xsi:type="string">0</item>
+													<item name="component" xsi:type="string">Albatool_Checkout/js/view/authentication-messages</item>
+													<item name="displayArea" xsi:type="string">messages</item>
+												</item>   
+											</item>
+                                        </item>-->
+                                        <item name="shipping-step" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="shippingAddress" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+														<item name="google-map" xsi:type="array">
+															<item name="component" xsi:type="string">Albatool_Checkout/js/view/checkout/shipping/google-map</item>
+															<item name="displayArea" xsi:type="string">google-map</item>
+															<item name="children" xsi:type="array">
+																<item name="address-list" xsi:type="array">
+																	<item name="component" xsi:type="string">Magento_Checkout/js/view/shipping-address/list</item>
+																	<item name="displayArea" xsi:type="string">address-list</item>
+																</item>
+															</item>
+														</item>
+														<item name="store_selector" xsi:type="array">
+															<item name="component" xsi:type="string">Magento_InventoryInStorePickupFrontend/js/view/store-selector</item>
+															<item name="displayArea" xsi:type="string">store_selector</item>
+														</item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+										<item name="billing-step" xsi:type="array">
+											<item name="children" xsi:type="array">
+												<item name="payment" xsi:type="array">
+													<item name="component" xsi:type="string">Magento_Checkout/js/view/payment</item>
+													<item name="config" xsi:type="array">
+														<item name="template" xsi:type="string">Albatool_Checkout/payment</item>
+														<item name="sortOrder" xsi:type="string">20</item>
+													</item>
+													<item name="children" xsi:type="array">
+														<item name="gift_message" xsi:type="array">
+															<item name="component" xsi:type="string">Magento_GiftMessage/js/view/gift-message</item>
+															<item name="displayArea" xsi:type="string">gift_message</item>
+															<item name="config" xsi:type="array">
+																<item name="template" xsi:type="string">Magento_GiftMessage/gift-message</item>
+																<item name="formTemplate" xsi:type="string">Magento_GiftMessage/gift-message-form</item>
+															</item>
+														</item>
+														<item name="loyalty_points" xsi:type="array">
+															<item name="component" xsi:type="string">Albatool_Checkout/js/view/loyalty</item>
+															<item name="displayArea" xsi:type="string">loyalty_points</item>
+															<item name="config" xsi:type="array">
+																<item name="template" xsi:type="string">Albatool_Checkout/loyalty</item>
+															</item>
+														</item>
+														<item name="store_credit" xsi:type="array">
+															<item name="component" xsi:type="string">Albatool_Checkout/js/view/storecredit</item>
+															<item name="displayArea" xsi:type="string">store_credit</item>
+															<item name="config" xsi:type="array">
+																<item name="template" xsi:type="string">Albatool_Checkout/storecredit</item>
+															</item>
+														</item>
+														<item name="afterMethods" xsi:type="array">
+															<item name="children" xsi:type="array">        
+																<item name="discount" xsi:type="array">
+																	<item name="config" xsi:type="array">
+																		<item name="componentDisabled" xsi:type="boolean">true</item>
+																	</item>
+																</item>
+															</item>
+														</item>
+													</item>
+												</item>
+											</item>
+										</item>	
+                                    </item>
+                                </item>
+								<item name="sidebar" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="custom_sidebar" xsi:type="array">
+                                            <item name="component" xsi:type="string">Albatool_Checkout/js/view/custom_sidebar</item>
+                                            <item name="displayArea" xsi:type="string">custom_sidebar</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="template" xsi:type="string">Albatool_Checkout/view/custom_sidebar
+                                                </item>
+                                            </item>
+                                        </item>
+										<item name="discount" xsi:type="array">
+											<item name="component" xsi:type="string">Albatool_Checkout/js/view/payment/discount</item>
+											<item name="displayArea" xsi:type="string">discount_sidebar</item>
+											<item name="children" xsi:type="array">
+												<item name="errors" xsi:type="array">
+													<item name="sortOrder" xsi:type="string">0</item>
+													<item name="component" xsi:type="string">Magento_SalesRule/js/view/payment/discount-messages</item>
+													<item name="displayArea" xsi:type="string">messages</item>
+												</item>
+											</item>
+										</item>
+										<item name="summary" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="totals" xsi:type="array">
+													<item name="children" xsi:type="array">
+														<item name="subtotal" xsi:type="array">
+															<item name="component" xsi:type="string">Albatool_Checkout/js/view/summary/subtotal</item>
+															<item name="config" xsi:type="array">
+																<item name="title" xsi:type="string" translate="true">Subtotal</item>
+															</item>
+														</item>
+													</item>
+                                                    <item name="sortOrder" xsi:type="string">99</item>
+                                                </item>
+                                                <item name="cart_items" xsi:type="array">
+                                                    <item name="sortOrder" xsi:type="string">0</item>
+                                                </item>
+                                            </item>
+											<item name="component" xsi:type="string">Albatool_Checkout/js/view/summary</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="template" xsi:type="string">Albatool_Checkout/summary</item>
+                                            </item>
+                                        </item>
+										<item name="shipping-information" xsi:type="array">
+											<item name="config" xsi:type="array">
+												<item name="componentDisabled" xsi:type="boolean">true</item>
+											</item>
+										</item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

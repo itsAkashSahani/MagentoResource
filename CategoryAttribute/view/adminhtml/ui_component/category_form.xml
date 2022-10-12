@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="content">
+        <field name="category_first_banner">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="source" xsi:type="string">category</item>
+                    <item name="label" xsi:type="string" translate="true">Category First Banner</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="number">65</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="catalog/category_image/upload"/>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="category_second_banner">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="source" xsi:type="string">category</item>
+                    <item name="label" xsi:type="string" translate="true">Category Second Banner</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="number">80</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="catalog/category_image/upload"/>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="category_third_banner">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="source" xsi:type="string">category</item>
+                    <item name="label" xsi:type="string" translate="true">Category Third Banner</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="number">120</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="catalog/category_image/upload"/>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="bottom_description" template="ui/form/field" sortOrder="160" formElement="wysiwyg">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="wysiwygConfigData" xsi:type="array">
+                        <item name="height" xsi:type="string">100px</item>
+                        <item name="add_variables" xsi:type="boolean">false</item>
+                        <item name="add_widgets" xsi:type="boolean">false</item>
+                        <item name="add_images" xsi:type="boolean">true</item>
+                        <item name="add_directives" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="source" xsi:type="string">category</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Bottom Description</label>
+                <dataScope>bottom_description</dataScope>
+            </settings>
+            <formElements>
+                <wysiwyg class="Magento\Catalog\Ui\Component\Category\Form\Element\Wysiwyg">
+                    <settings>
+                        <rows>8</rows>
+                        <wysiwyg>true</wysiwyg>
+                    </settings>
+                </wysiwyg>
+            </formElements>
+        </field>
+        <field name="category_first_banner_link">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="sortOrder" xsi:type="number">70</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" translate="true" xsi:type="string">Category First Banner Link</item>
+                </item>
+            </argument>
+        </field>
+        <field name="category_second_banner_link">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="sortOrder" xsi:type="number">85</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" translate="true" xsi:type="string">Category Second Banner Link</item>
+                </item>
+            </argument>
+        </field>
+        <field name="category_third_banner_link">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="required" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="sortOrder" xsi:type="number">125</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" translate="true" xsi:type="string">Category Third Banner Link</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

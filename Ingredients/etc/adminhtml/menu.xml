@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Albatool_Ingredients::parent" title="Ingredients" module="Albatool_Ingredients" sortOrder="100" resource="Albatool_Ingredients::parent"/>
+        <!--<add id="Albatool_Ingredients::index" title="Ingredients Index" module="Albatool_Ingredients" sortOrder="10" action="ingredients/index" resource="Albatool_Ingredients::index" parent="Albatool_Ingredients::parent"/>-->
+		<add id="Albatool_Ingredients::ingredientsglossary" title="Ingredients Ingredientsglossary" module="Albatool_Ingredients" sortOrder="20" parent="Albatool_Ingredients::parent" action="ingredients/ingredientsglossary" resource="Albatool_Ingredients::ingredientsglossary"/>
+
+    </menu>
+</config>

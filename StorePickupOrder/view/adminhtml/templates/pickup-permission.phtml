@@ -1,0 +1,40 @@
+<?php 
+//echo "sdfghj";die;
+	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+	$extensionUser = $objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
+	$isShowPickup = 0;
+
+	if($extensionUser->getData('is_show_otp') == 1) {
+		$isShowPickup = 1;
+	}
+
+	$role_id=$extensionUser->getRole()->getData('role_id');
+	$role_name=$extensionUser->getRole()->getData('role_name');
+	if(($role_name == 'Administrators') || ($role_id == '1'))
+	{
+			$vlue=0;
+
+	}else{
+		$vlue=1;
+	}
+?>
+<input type="hidden" name="pickup-permi" id="user-pickup" value="<?php echo $vlue;?>">
+<input type="hidden" name="pickup-otp-permi" id="user-show-otp" value="<?php echo $isShowPickup;?>">
+
+<script type="text/javascript">
+	require(['jquery'],function($){
+		$(document).ready(function(){
+			var user = $("#user-pickup").val();
+			var showOtp = $("#user-show-otp").val();
+			if(user == 1){
+				$("li.item-sales-invoice").remove();
+				$("li.item-sales-shipment").remove();
+				$("li.item-sales-creditmemo").remove();
+			}
+
+			if(showOtp == 0){
+				$("#orderOtp").remove();
+			}
+		});
+	});
+</script>

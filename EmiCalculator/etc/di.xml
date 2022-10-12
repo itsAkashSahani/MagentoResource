@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Ambab\EmiCalculator\Api\Data\BankInterface" type="Ambab\EmiCalculator\Model\Bank" />
+	<preference for="Ambab\EmiCalculator\Api\BankRepositoryInterface" type="Ambab\EmiCalculator\Model\BankRepository" />
+    <virtualType name="BanksGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Ambab\EmiCalculator\Model\ResourceModel\Bank\Collection</argument>
+        </arguments>
+    </virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="banks_allbanks_listing_data_source" xsi:type="string">Ambab\EmiCalculator\Model\ResourceModel\Bank\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ambab\EmiCalculator\Model\ResourceModel\Bank\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ambab_banks</argument>
+            <argument name="eventPrefix" xsi:type="string">ambab_emicalculator_bank_collection</argument>
+            <argument name="eventObject" xsi:type="string">bank_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ambab\EmiCalculator\Model\ResourceModel\Bank</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Ambab\EmiCalculator\Api\Data\BankInterface" xsi:type="string">Ambab\EmiCalculator\Api\BankRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

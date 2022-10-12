@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Albatool\Checkout\Api\PickupLocationsInterface" type="Albatool\Checkout\Model\GetPickupLocations"/>
+	<type name="Magento\Framework\Webapi\Rest\Response\Renderer\Json">
+		<plugin name="customapi_renderer_json_plugin" type="Albatool\Checkout\Plugin\JsonPlugin" sortOrder="100" disabled="false" />
+	</type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+		<plugin name="add_new_variable_checkout_config" type="Albatool\Checkout\Plugin\DefaultConfigProviderPlugin" sortOrder="1" />
+	</type>
+	<type name="Magento\Checkout\Block\Checkout\AttributeMerger">
+		<plugin name="shippingAddress" type="Albatool\Checkout\Plugin\Checkout\AttributeMerger"/>
+	</type>
+	<type name="Magento\Checkout\CustomerData\DefaultItem">
+        <plugin name="add_special_price" type="Albatool\Checkout\Plugin\Checkout\CartItem" sortOrder="10"/>
+    </type>
+	<!-- <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="ProcessReferrerConfiguration" type="Albatool\Checkout\Plugin\Block\Checkout\LayoutProcessor" disabled="true" />
+    </type> -->
+    <type name="Magento\Customer\Model\Address\AbstractAddress">
+    	<plugin name="Albatool_RemovePostcode::customerAddressPostcodeValidatorAddress" type="Albatool\Checkout\Plugin\Customer\Address\PostcodeValidatorAddress" />
+	</type>
+	<type name="Magento\Quote\Api\CartTotalRepositoryInterface">
+        <plugin name="total_cart_repository_plugin" type="Albatool\Checkout\Plugin\TotalRepositoryPlugin"/>
+    </type>
+    <!--<preference for="Magento\Checkout\Model\Session" type="Albatool\Checkout\Model\Rewrite\Session" />-->
+    <!--<preference for="Magento\Tax\Model\Sales\Total\Quote\Tax" type="Albatool\Checkout\Model\Sales\Total\Quote\Tax"/>
+    <preference for="Magento\Sales\Model\Order\Invoice\Total\Tax" type="Albatool\Checkout\Model\Order\Invoice\Total\Tax"/>-->
+    <!--<preference for="Magento\Sales\Block\Order\History" type="Albatool\Checkout\Block\Rewrite\Order\History" />-->
+</config>

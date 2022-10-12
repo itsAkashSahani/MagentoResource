@@ -1,0 +1,647 @@
+<?php 
+	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();  
+	$request = $objectManager->get('Magento\Framework\App\Request\Http');  
+	$quiz_question_type = $request->getParam('quiz_question_type');
+?>
+<main class="page-main">
+	<div class="columns">
+		<div class="column main">
+			<div class="container">
+				<div class="quiz-page-step">
+					<div class="left ">
+						<img src="<?php echo $this->getViewFileUrl('images/quiz-banner.png'); ?>" alt="" class="img-fluid">
+					</div>
+					<?php if($quiz_question_type == "hair"){?>
+						<div class="right">
+							<form class="form hair_quiz" id="hair_quiz_form" method="post" action="<?php echo $this->getUrl('hairquiz/index/submit', ['_secure' => true]); ?>" data-mage-init='{"validation":{}}'>
+								<div class="tab_0 content" id="tab_0">
+									<h1 class="page-title"><?= __("Your Personalised Hair Diagnosis") ?></h1>
+										<h4><?= __("Please provide your information for a personalised result!") ?></h4>
+											<fieldset class="fieldset">
+												<div class="field name required">
+													<div class="control">
+														<label class="label" for="name"><span><?= __("Name") ?>*</span></label>
+														<input name="name" id="name" title="Name" value="" class="input-text" type="text"
+															data-validate="{required:true}" placeholder="<?= __("Full Name") ?>">
+													</div>
+												</div>
+												<div class="field gender required">
+													<div class="control">
+														<label class="label" for="gender"><span><?= __("Gender") ?>*</span></label>
+														<div class="radio-btn">
+															<input name="gender" value="female" id="gender" type="radio" class="input-text" data-validate="{required:true}">
+															<span class="" for="female"><?= __("Female") ?> </span> 
+														</div>
+														<div class="radio-btn">
+															<input name="gender" value="male" id="gender" type="radio" class="input-text" data-validate="{required:true}">
+															<span class="" for="male"><?= __("Male") ?> </span> 
+														</div>
+													</div>
+												</div>
+												<div class="field dob">
+													<label class="label" for="dob"><span><?= __("Date of birth") ?>*</span></label>
+													<div class="dob-field">
+														<select id="day" name="day" data-role="day" class="sorter-options" data-validate="{required:true}">
+															<option value=""><?= __("Day") ?></option>
+															<?php for($i = 1; $i <= 31; $i++): ?>
+																<option value="<?= $i ?>"><?= __(str_pad($i, 2, '0', STR_PAD_LEFT)) ?></option>
+															<?php endfor; ?>
+														</select>
+														<select id="month" name="month" data-role="months" class="sorter-options" data-validate="{required:true}">
+															<option value="" selected="selected"><?= __("Month") ?></option>
+															<option value="01"><?= __("January") ?></option>
+															<option value="02"><?= __("February") ?></option>
+															<option value="03"><?= __("March") ?></option>
+															<option value="04"><?= __("April") ?></option>
+															<option value="05"><?= __("May") ?></option>
+															<option value="06"><?= __("June") ?></option>
+															<option value="07"><?= __("July") ?></option>
+															<option value="08"><?= __("August") ?></option>
+															<option value="09"><?= __("September") ?></option>
+															<option value="10"><?= __("October") ?></option>
+															<option value="11"><?= __("November") ?></option>
+															<option value="12"><?= __("December") ?></option>
+														</select>
+														<select id="year" name="year" data-role="year" class="sorter-options" data-validate="{required:true}">
+															<option value="" selected="selected"><?= __("Year") ?></option>
+															<?php for($i = date("Y"); $i >= 1930; $i--): ?>
+																<option value="<?= $i ?>"><?= __($i) ?></option>
+															<?php endfor; ?>
+														</select>
+													</div>
+												</div>
+												<div class="field medical">
+													<div class="control">
+														<label class="label" for="dob"><span><?= __("Do you have any medical conditions?") ?></span></label>
+														<div class="radio-btn">
+															<input name="medical" value="yes" id="medical" name="medical" type="radio" class="input-text" >
+															<span class="" for="yes"><?= __("Yes") ?></span> 
+														</div>
+														<div class="radio-btn">
+															<input name="medical" value="no" id="medical" name="medical" type="radio" class="input-text" >
+															<span class="" for="no"><?= __("No") ?> </span> 
+														</div>
+													</div>
+												</div>
+												<div class="action-group">    
+													<!--<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_1">Next</a>-->
+													<a href="javascript:void(0);" id="next_button" class="next action primary"><?= __("Next") ?></a>
+												</div>
+											</fieldset>
+									</div>
+									<div class="tab_1 content" id="tab_1">
+										<h4 class="step-number"><?= __("Question 1/") ?><span><?= __("4") ?></span></h4>
+										<h2 class="page-title"><?= __("Please describe your hair") ?></h2>
+											<div class="slider-label"><?= __("Length") ?></div>
+												<div class="wrap wrap-length">
+													<div id="slider-length" class="range-slider"></div>
+												</div>
+											<div class="slider-label"><?= __("Thickness") ?></div>
+												<div class="wrap wrap-thickness">
+													<div id="slider-thickness" class="range-slider"></div>
+												</div>
+											<div class="action-group">
+												<a href="javascript:void(0);" class="back toggle-btn action text-link" data-id="tab_0"><?= __("Back") ?></a>
+												<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_2"><?= __("Next") ?></a>
+											</div>
+										</div>
+									<div class="tab_2 content" id="tab_2">
+										<h4 class="step-number"><?= __("Question 2/") ?><span><?= __("4") ?></span></h4>
+										<h2 class="page-title"><?= __("How would you describe your scalp?") ?></h2>
+										<div class="wrap">
+											<div id="slider-scale" class="range-slider"></div>
+										</div>
+										<div class="action-group">
+											<a href="javascript:void(0);" class="back toggle-btn action text-link" data-id="tab_1"><?= __("Back") ?></a>
+											<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_3"><?= __("Next") ?></a>
+										</div>
+									</div>
+									<div class="tab_3 content" id="tab_3">
+										<h4 class="step-number"><?= __("Question 3/") ?><span><?= __("4") ?></span></h4>
+										<h2 class="page-title"><?= __("How would you describe your lengths?") ?></h2> 
+										<div class="wrap">
+											<div id="slider_describeLength" class="range-slider"></div>
+										</div>
+										<div class="action-group">
+											<a href="javascript:void(0);" class="back toggle-btn action text-link" data-id="tab_2"><?= __("Back") ?></a>
+											<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_4"><?= __("Next") ?></a>
+										</div>
+									</div>
+									<div class="tab_4 content" id="tab_4">
+										<h4 class="step-number"><?= __("Question 4/") ?><span><?= __("4") ?></span></h4>
+										<h2 class="page-title"><?= __("What is your beauty routine?") ?></h2>
+										<div class="wrap">
+											<div id="slider_beauty" class="range-slider"></div>
+										</div>
+										<div class="action-group">
+											<a href="javascript:void(0);" class="back toggle-btn action text-link" data-id="tab_3"><?= __("Back") ?></a>
+											<a href="javascript:void(0);" class="next toggle-btn action primary" data-id="tab_5"><?= __("Next") ?></a>
+										</div>
+									</div>
+									<div class="tab_5 content" id="tab_5">
+										<h2 class="page-title"><?= __("Almost there!") ?></h2>
+										<h4 class=""><?= __("Enter your email address here to reveal your results, and receive a surprise gift on us!") ?></h4>
+										<fieldset class="fieldset">
+											<div class="field Email required w-50">
+												<div class="control">
+													<input name="Email" value="" id="email" type="email" class="input-text" placeholder="<?= __("Email") ?>" data-validate="{required:true, 'validate-email':true}">
+												</div>
+											</div>
+											<div class="field">
+												<div class="checkbox">
+													<input type="checkbox" name="special_offers" id="special_offers" class="css-checkbox filled">
+													<label for="special_offers" class="css-label"><?= __('I want to receive special offers from Yves Rocher') ?></label>
+												</div>
+												<div class="checkbox">
+													<input type="checkbox" name="privacy-policy" id="privacy-policy" class="css-checkbox filled required-entry">
+													<label for="privacy-policy" class="css-label"><?= __('I declare that I have read the') ?> <a href="<?php echo $this->getUrl('privacy-and-cookie-policy');?>"><?= __("privacy policy") ?>*</a></label>
+												</div>
+												<div class="checkbox">
+													<input type="checkbox" name="terms" id="terms" class="css-checkbox filled required-entry">
+													<label for="terms" class="css-label"><?= __('I agree to Yves Roche <a href="%1" target="_blank">Terms and conditions*</a>', $this->getUrl('terms-condition')) ?></label>
+												</div>
+											</div>
+										</fieldset>
+										<input type="hidden" id="hair_length_val" name="hair_length_val">
+										<input type="hidden" id="hair_thickness_val" name="hair_thickness_val">
+										<input type="hidden" id="hair_scale_val" name="hair_scale_val">
+										<input type="hidden" id="hair_describelength_val" name="hair_describelength_val">
+										<input type="hidden" id="hair_beauty_val" name="hair_beauty_val">
+										<div class="action-group">
+										<button id="submit-btn" class="action primary" type="submit"><?= __("SUBMIT") ?></button>
+									</div>
+								</div>
+							</form>
+						</div>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<script src="<?php echo $block->getViewFileUrl('js/custom-select.js')?>"></script>
+
+<script>
+	function selectOption(field, input) {
+		// console.log(input);
+
+		var parent = document.getElementById(field);
+		var element = document.getElementById(input);
+		var spanParent = element.parentElement
+
+		console.log(parent);
+
+		if(typeof(spanParent.dataset.id) != "undefined") {
+			console.log(spanParent.dataset.id);
+			if(spanParent.dataset.id == 'q1Class0') {
+				document.getElementById("q1Class1").classList.remove("active");
+				document.getElementById("q1Class2").classList.remove("active");
+				document.getElementById("q1Class0").classList.add("active");
+			}
+			if(spanParent.dataset.id == 'q1Class1') {
+				document.getElementById("q1Class0").classList.remove("active");
+				document.getElementById("q1Class2").classList.remove("active");
+				document.getElementById("q1Class1").classList.add("active");
+			}
+			if(spanParent.dataset.id == 'q1Class2') {
+				document.getElementById("q1Class1").classList.remove("active");
+				document.getElementById("q1Class0").classList.remove("active");
+				document.getElementById("q1Class2").classList.add("active");
+			}
+
+			if(spanParent.dataset.id == 'q2Class0') {
+				document.getElementById("q2Class1").classList.remove("active");
+				document.getElementById("q2Class2").classList.remove("active");
+				document.getElementById("q2Class0").classList.add("active");
+			}
+			if(spanParent.dataset.id == 'q2Class1') {
+				document.getElementById("q2Class0").classList.remove("active");
+				document.getElementById("q2Class2").classList.remove("active");
+				document.getElementById("q2Class1").classList.add("active");
+			}
+			if(spanParent.dataset.id == 'q2Class2') {
+				document.getElementById("q2Class1").classList.remove("active");
+				document.getElementById("q2Class0").classList.remove("active");
+				document.getElementById("q2Class2").classList.add("active");
+			}
+		}
+		
+		if(input == "q4o0") {
+			document.getElementById("q4o1").classList.remove("active");
+			parent.value = "Express";
+			element.classList.add("active");
+		}
+		else if (input == "q4o1") {
+			document.getElementById("q4o0").classList.remove("active");
+			parent.value = "Expert";
+			element.classList.add("active");
+		}
+		else {
+			parent.value = element.dataset.option;
+		}
+
+		console.log(parent.value);
+	}
+</script>
+
+<script>
+	require([ 'jquery', 'mage/translate', 'mage/validation' ], function($, $t){
+
+		var dataForm = $('#hair_quiz_form');
+		var ignore = null;
+
+		dataForm.mage('validation', {
+			errorPlacement: function(error, element) {
+				
+				var errorPlacement = element, fieldWrapper;
+						
+				//logic for checkboxes/radio
+				if (element.is(':checkbox') || element.is(':radio')) {
+					errorPlacement = element.parents('.control').children().last();
+
+					//fallback if group does not have .control parent
+					if (!errorPlacement.length) {
+						errorPlacement = element.siblings('label').last();
+					}
+				}
+				
+				errorPlacement.after(error);
+				
+				if(element.is('select')) {
+					element.parents('.select').children().last().after( error );
+				}
+			},
+			ignore: ':hidden:not(select)',
+			
+		}).find('input:text').attr('autocomplete', 'off');
+
+		$('#next_button').click( function() {
+				var status = dataForm.validation('isValid'); //validates form and returns boolean
+				// console.log($('#hair_quiz_form'));
+				console.log(status);
+				if(status) {
+					$('#tab_0').hide();
+					$('#tab_1').show();
+				}
+		});
+	});
+
+	require(['jquery', 'mage/translate', 'jquery/ui', 'slick'], function($, $t) {
+		$("#hair_length_val").val('Medium');
+		$("#hair_thickness_val").val('Normal');
+		$("#hair_scale_val").val('Normal');
+		$("#hair_describelength_val").val('Normal hair');
+		$("#hair_beauty_val").val('Express');
+
+		$(document).ready(function() {
+			/*Slider Length 1st Function*/
+			console.log($(window).width());
+				function slider_length(){
+					var lableMap = ["<?php echo __('Short'); ?>", "<?php echo __('Medium'); ?>", "<?php echo __('Long'); ?>"];
+					var valMap = ["Short", "Medium", "Long"];
+					if($(window).width() > 767) {
+						$("#slider-length").slider({
+							max: valMap.length - 1,
+							slide: function(event, ui) {
+								$("#radiusAmount").val(valMap[ui.value]);
+								// console.log(valMap[ui.value])
+								$('#slider-length .rlabel').removeClass('active');
+								$('#slider-length .index'+ui.value).addClass('active');
+							}
+						})
+						.each(function() {
+							var opt = $(this).data().uiSlider.options;
+							var vals = opt.max - opt.min;
+							var arrayLength = valMap.length;
+							for (var i = 0; i < arrayLength; i++) {
+								var el = $('<label class="rlabel '+'index'+(i)+'">' + (lableMap[i]) + '</label>').css('left', (i / vals * 100) + '%');
+
+								$("#slider-length").append(el);
+							}
+						});
+					}
+					else {
+						var inputfield = "hair_length_val";
+						valMap.forEach(function(item, index) {
+							var inputId = "q1ao" + index +"";
+
+							var el = '<span id="q1Class'+(index)+'" onclick="selectOption(\'' + inputfield +'\', \''+ (inputId) +'\')" data-id="q1Class'+(index)+'" class="rlabel '+'index'+(index)+'"><input id="'+inputId+'" type="text" value="'+ (lableMap[index]) +'" data-option="'+ (valMap[index]) +'" readonly></span>';
+							$("#slider-length").append(el);
+
+						})
+					}
+				}
+				slider_length();
+			/*End Slider 1st Function*/
+			/*Slider Thickness 2nd Funciton*/
+				function slider_thickness(){
+					var lableMap = ['<?php echo __('Fine'); ?>', '<?php echo __('Normal'); ?>', '<?php echo __('Thick'); ?>'];
+					var valMap = ['Fine', 'Normal', 'Thick'];
+
+					if($(window).width() > 767) {
+						$("#slider-thickness").slider({
+							max: valMap.length - 1,
+							slide: function(event, ui) {
+									$("#radiusAmount").val(valMap[ui.value]);
+									// console.log(valMap[ui.value])
+									$('#slider-thickness .rlabel').removeClass('active');
+									$('#slider-thickness .index'+ui.value).addClass('active')
+							}
+						})
+						.each(function() {
+							var opt = $(this).data().uiSlider.options;
+							var vals = opt.max - opt.min;
+							var arrayLength = valMap.length;
+							for (var i = 0; i < arrayLength; i++) {
+
+								var el = $('<label class="rlabel '+'index'+(i)+'">' + (lableMap[i]) + '</label>').css('left', (i / vals * 100) + '%');
+
+								$("#slider-thickness").append(el);
+							}
+						});
+					}
+					else {
+						var inputfield = "hair_thickness_val";
+						valMap.forEach(function(item, index) {
+							var inputId = "q1bo" + index +"";
+
+							var el = '<span id="q2Class'+(index)+'" onclick="selectOption(\'' + inputfield +'\', \''+ (inputId) +'\')" data-id="q2Class'+(index)+'" class="rlabel '+'index'+(index)+'"><input id="'+inputId+'" type="text" value="'+ (lableMap[index]) +'" data-option="'+ (valMap[index]) +'" readonly></span>';
+							$("#slider-thickness").append(el);
+
+						})
+					}
+				}
+				slider_thickness();
+			/*End Slider Thickness 2nd Function*/
+			/*Slider Scale 3rd Function*/
+				function slider_scale(){
+					var lableMap = ['<?php echo __('Normal'); ?>', '<?php echo __('With dandruff'); ?>', '<?php echo __('Exposed to pollution'); ?>', '<?php echo __('Oily'); ?>', '<?php echo __('Dry & sensitive'); ?>', '<?php echo __('With a hair loss'); ?>'];
+					var valMap = ['Normal', 'With dandruff', 'Exposed to pollution', 'Oily', 'Dry & sensitive', 'With a hair loss'];
+
+					if($(window).width() > 767) {
+						$("#slider-scale").slider({
+							max: valMap.length - 1,
+							slide: function(event, ui) {
+								$("#radiusAmount").val(valMap[ui.value]);
+								// console.log($.trim(valMap[ui.value]).replace(/ /g,''));
+								console.log(ui.value);
+								$('#slider-scale .rlabel').removeClass('active');
+								$('#slider-scale .index'+ui.value).addClass('active')
+							}
+						})
+						.each(function() {
+							var opt = $(this).data().uiSlider.options;
+							var vals = opt.max - opt.min;
+							var arrayLength = valMap.length;
+							for (var i = 0; i < arrayLength; i++) {
+								console.log(i);
+
+								var el = $('<label class="rlabel '+'index'+(i)+'">' + (lableMap[i]) + '</label>').css('left', (i / vals * 100) + '%');
+
+								$("#slider-scale").append(el);
+							}
+						});
+					}
+					else {
+						var inputfield = "hair_scale_val";
+						valMap.forEach(function(item, index) {
+							var inputId = "q2o" + index +"";
+
+							var el = '<span class="rlabel '+'index'+(index)+'"><input id="'+inputId+'" onclick="selectOption(\'' + inputfield +'\', \''+ (inputId) +'\')" type="text" value="'+ (lableMap[index]) +'" data-option="'+ (valMap[index]) +'" readonly></span>';
+							$("#slider-scale").append(el);
+
+						})
+					}
+				}
+				slider_scale();
+
+			/*End Slider Scale 3rd Function*/
+			/*Slider describelength 4th Function*/
+				function slider_describeLength(){
+					var lableMap = ['<?php echo __('Damaged and brittle hair'); ?>', '<?php echo __('Dyed hair'); ?>', '<?php echo __('Exposed to pollution'); ?>', '<?php echo __('Frizzy hair'); ?>', '<?php echo __('Normal hair'); ?>', '<?php echo __('Dull hair'); ?>', '<?php echo __('Fine hair'); ?>', '<?php echo __('Curly hair'); ?>'];
+					var valMap = ['Damaged and brittle hair', 'Dyed hair', 'Exposed to pollution', 'Frizzy hair', 'Normal hair', 'Dull hair', 'Fine hair', 'Curly hair'];
+
+					if($(window).width() > 767) {
+						$("#slider_describeLength").slider({
+							max: valMap.length - 1,
+							slide: function(event, ui) {
+									$("#radiusAmount").val(valMap[ui.value]);
+									// console.log($.trim(valMap[ui.value]).replace(/ /g,''));
+									// console.log(ui.value);
+									$('#slider_describeLength .rlabel').removeClass('active');
+									$('#slider_describeLength .index'+ui.value).addClass('active')
+							}
+						})
+						.each(function() {
+							var opt = $(this).data().uiSlider.options;
+							var vals = opt.max - opt.min;
+							var arrayLength = valMap.length;
+								for (var i = 0; i < arrayLength; i++) {
+
+									var el = $('<label class="rlabel '+'index'+(i)+'">' + (lableMap[i]) + '</label>').css('left', (i / vals * 100) + '%');
+
+									$("#slider_describeLength").append(el);
+								}
+							});
+					}
+					else {
+							var inputfield = "hair_describelength_val";
+							valMap.forEach(function(item, index) {
+								var inputId = "q3o" + index +"";
+
+								var el = '<span class="rlabel '+'index'+(index)+'"><input id="'+inputId+'" onclick="selectOption(\'' + inputfield +'\', \''+ (inputId) +'\')" type="text" value="'+ (lableMap[index]) +'" data-option="'+ (valMap[index]) +'" readonly></span>';
+								$("#slider_describeLength").append(el);
+
+							})
+					}
+				}
+				slider_describeLength();
+			/*End Slider describelength 4th Function*/
+			/*Slider beauty 5th Function*/
+				function slider_beauty(){
+					var lableMap = ["<?php echo __("Express: I'm looking for the essentials to take care of my hair"); ?>", "<?php echo __("Expert: I'm looking for the full steps to have the best results"); ?>"];
+					var valMap = ["Express: I'm looking for the essentials to take care of my hair", "Expert: I'm looking for the full steps to have the best results"];
+
+					if($(window).width() > 767) {
+						$("#slider_beauty").slider({
+							max: valMap.length - 1,
+							slide: function(event, ui) {
+									$("#radiusAmount").val(valMap[ui.value]);
+									// console.log($.trim(valMap[ui.value]).replace(/ /g,''));
+									// console.log(ui.value);
+									$('#slider_beauty .rlabel').removeClass('active');
+									$('#slider_beauty .index'+ui.value).addClass('active')
+							}
+						})
+						.each(function() {
+							var opt = $(this).data().uiSlider.options;
+							var vals = opt.max - opt.min;
+							var arrayLength = valMap.length;
+							for (var i = 0; i < arrayLength; i++) {
+
+								var el = $('<label class="rlabel '+'index'+(i)+'">' + (lableMap[i]) + '</label>').css('left', (i / vals * 100) + '%');
+
+								$("#slider_beauty").append(el);
+
+							}
+						});
+					}
+					else {
+						var inputfield = "hair_beauty_val";
+						valMap.forEach(function(item, index) {
+							var inputId = "q4o" + index +"";
+
+							var el = '<span class="rlabel '+'index'+(index)+'"><lable id="'+inputId+'" onclick="selectOption(\'' + inputfield +'\', \''+ (inputId) +'\')">'+ (lableMap[index]) +'</lable></span>';
+							$("#slider_beauty").append(el);
+
+						})
+					}
+
+					
+				}
+				slider_beauty();
+			/*End Slider beauty 5th Function*/
+
+			$('.quiz-page-step .content').eq(0).show();
+			$('.action-group .toggle-btn').click(function(){
+				var id = $(this).data('id');
+				console.log(id);
+
+				if ($(window).width() > 767) {
+					/*slider lenght value save*/
+
+					var slider_length = $("#slider-length").slider("value");
+					console.log(slider_length);
+					var slider_length_var = "Medium";
+					if(slider_length == 0){
+						slider_length_var = "Short";
+					}
+					else if(slider_length == 1){
+						slider_length_var = "Medium";
+					}
+					else if(slider_length == 2){
+						slider_length_var = "Long";
+					}
+					else{
+						slider_length_var = "Medium";
+					}
+					$("#hair_length_val").val(slider_length_var);
+					/*end slider lenght value save*/
+				}
+
+				if ($(window).width() > 767) {
+					/*slider thickness value save*/
+					var slider_thickness = $("#slider-thickness").slider("value");
+
+					var slider_thickness_var = "Normal";
+					if(slider_thickness == 0){
+						slider_thickness_var = "Fine";
+					}
+					else if(slider_thickness == 1){
+						slider_thickness_var = "Normal";
+					}
+					else if(slider_thickness == 2){
+						slider_thickness_var = "Thick";
+					}
+					else{
+						slider_thickness_var = "Normal";
+					}
+					$("#hair_thickness_val").val(slider_thickness_var);
+					/*end slider thickness value save*/
+				}
+				
+				/*slider scale value save*/
+
+				if ($(window).width() > 767) {
+						
+					var slider_scale = $("#slider-scale").slider("value");
+					console.log(slider_scale);
+
+					console.log(typeof $('#slider-scale').slider());
+
+					var slider_scale_var = "Normal";
+						if(slider_scale == 0){
+							slider_scale_var = "Normal";
+						}
+						else if(slider_scale == 1){
+							slider_scale_var = "With dandruff";
+						}
+						else if(slider_scale == 2){
+							slider_scale_var = "Exposed to pollution";
+						}
+						else if(slider_scale == 3){
+							slider_scale_var = "Oily";
+						}
+						else if(slider_scale == 4){
+							slider_scale_var = "Dry & sensitive";
+						}
+						else if(slider_scale == 5){
+							slider_scale_var = "With a hair loss";
+						}
+						else{
+							slider_scale_var = "Normal";
+						}
+						$("#hair_scale_val").val(slider_scale_var);
+				}
+				/*end slider scale value save*/
+
+
+				if ($(window).width() > 767) {
+					/*slider describe length value save*/
+					var slider_describeLength = $("#slider_describeLength").slider("value");
+					var slider_describeLength_var = "Normal hair";
+					if(slider_describeLength == 0){
+							slider_describeLength_var = "Damaged and brittle hair";
+						}
+						else if(slider_describeLength == 1){
+							slider_describeLength_var = "Dyed hair";
+						}
+						else if(slider_describeLength == 2){
+							slider_describeLength_var = "Exposed to pollution";
+						}
+						else if(slider_describeLength == 3){
+							slider_describeLength_var = "Frizzy hair";
+						}
+						else if(slider_describeLength == 4){
+							slider_describeLength_var = "Normal hair";
+						}
+						else if(slider_describeLength == 5){
+							slider_describeLength_var = "Dull hair";
+						}
+						else if(slider_describeLength == 6){
+							slider_describeLength_var = "Fine hair";
+						}
+						else if(slider_describeLength == 7){
+							slider_describeLength_var = "Curly hair";
+						}
+						else{
+							slider_describeLength_var = "Normal hair";
+						}
+						$("#hair_describelength_val").val(slider_describeLength_var);
+				/*end slider describe length value save*/
+				}
+
+				if ($(window).width() > 767) {
+					/*slider beauty value save*/
+					var slider_beauty = $("#slider_beauty").slider("value");
+					var slider_beauty_var = "Express";
+					if(slider_beauty == 0){
+						slider_beauty_var = "Express";
+					}
+					else if(slider_beauty == 1){
+						slider_beauty_var = "Expert";
+					}
+					else{
+						slider_beauty_var = "Express";
+					}
+					$("#hair_beauty_val").val(slider_beauty_var);
+				/*end slider beauty value save*/
+				}
+				
+				$('.quiz-page-step .content').hide();
+				$('#'+id).show();
+			});
+		});
+	});
+</script>

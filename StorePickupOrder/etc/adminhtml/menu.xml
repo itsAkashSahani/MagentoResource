@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Albatool_StorePickupOrder::storepickuporder" title="Pickup Orders" translate="title" module="Albatool_StorePickupOrder" sortOrder="90" dependsOnModule="Albatool_StorePickupOrder" resource="Albatool_StorePickupOrder::storepickuporder" parent="Magento_Sales::sales" />
+
+        <add id="Albatool_StorePickupOrder::storepickuporder_standard" title="Order Pickup Report" translate="title" module="Albatool_StorePickupOrder" parent="Albatool_StorePickupOrder::storepickuporder" sortOrder="100" dependsOnModule="Albatool_StorePickupOrder" action="storepickuporder/standard/index" resource="Albatool_StorePickupOrder::storepickuporder"/>
+    </menu>
+</config>

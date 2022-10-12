@@ -1,0 +1,39 @@
+
+<!-- ko if: onElementRender() -->
+<input
+      id="pac-input"
+      class="controls shipping-map"
+      type="text"
+      placeholder="Search for an addresses"
+      data-bind="afterRender: initAutocomplete"
+    />
+	<button class="map-search homepickup-map-search" type="submit" title="Search"></button>
+
+<div id="map"></div>
+<div class="bottom-section" if="showLocationButton()">		
+	<!-- ko if: (isCustomerLoggedIn && customerHasAddresses) -->
+	<div class="field custom-section field-select-shipping">
+		<div class="title" data-role="title" >
+			<span translate="'Saved addresses'"></span>
+		</div>
+		<each args="getRegion('address-list')" render="" />
+	</div>
+	<!-- /ko -->
+	<div class="use-currentloction custom-section  action primary" data-bind="click:useCurrentLoction">
+		<span data-bind="i18n: 'USE CURRENT LOCATION'"></span>
+	</div>
+</div>
+<!-- /ko -->
+
+<!-- ko ifnot: onElementRender() -->
+<div class="bottom-section">		
+	<!-- ko if: (isCustomerLoggedIn && customerHasAddresses) -->
+	<div class="field field-select-shipping">
+		<div class="title" data-role="title" >
+			<span translate="'Saved addresses'"></span>
+		</div>
+		<each args="getRegion('address-list')" render="" />
+	</div>
+	<!-- /ko -->
+</div>
+<!-- /ko -->

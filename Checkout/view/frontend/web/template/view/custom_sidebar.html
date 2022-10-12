@@ -1,0 +1,118 @@
+<div id="opc-sidebar-custom" class="item-sidebar">
+    <div class="title">
+		<h3 data-bind="i18n: 'Order Summary'"></h3>
+	</div>
+	<div class="items-in-cart">
+		<div class="content minicart-items" data-role="content">
+			<div class="minicart-items-wrap">
+				<ol class="minicart-items">
+					<div data-bind="text: console.log(isPickup())"></div>
+					<!-- ko foreach: { data: items(), as: 'item' } -->
+						<li class="product-item">
+							<div class="product">
+								<div class="product-item-details">
+									<div class="product-item-inner">
+										<div class="product-item-name-block">
+											<div class="product-image-container">
+												<span class="product-image-wrapper">
+													<img
+														data-bind="attr: {'src': $parent.getSrc(item), 'width': $parent.getWidth(item), 'height': $parent.getHeight(item), 'alt': $parent.getAlt(item), 'title': $parent.getAlt(item) }"/>
+												</span>
+											</div>
+											<div class="product-name">
+												<strong class="product-item-name" data-bind="html: item.name"></strong>
+												<!-- ko if: (JSON.parse(item.options).length > 0)-->
+														<dl class="item-options">
+															<!-- ko foreach: { data: JSON.parse(item.options), as: 'options' } -->
+															<dd class="values"  data-bind="text: options.value"></dd>
+														<!-- /ko -->
+													</dl>
+												<!-- /ko -->
+												<span class="qty">
+													<span class="value" data-bind="text: item.tube_qty"> </span><span class="value" data-bind="text: item.color_shades"></span><br>
+													<span class="value" data-bind="text: item.prod_other_price"></span>
+												</span>
+											</div>
+											<div class="details-qty">
+												<span class="label"><!-- ko i18n: 'Quantity' --><!-- /ko --></span>
+												<!--<span class="value" data-bind="text: item.qty"></span>-->
+												<input class="item-qty" data-bind="attr: {
+														id: 'cart-item-'+item.item_id+'-qty',
+														'data-cart-item': item.item_id,
+														'data-item-qty': item.qty,
+														'data-cart-item-id': item.sku
+														}, value: item.qty,
+														event: { change: $parent.editQtyFun(item.item_id, item.qty,item.old_price,item.special_price,item.base_price_incl_tax) }">
+												
+												<div data-bind="attr: {id: 'item-qty-not-available_'+item.item_id}"></div>
+												
+											</div>
+											<div class="home-div" if="!$parent.isPickup()">
+												<div class="product-old-price" if="item.available_home_delivery">
+													<!-- ko if: item.special_price -->
+														<span class="'old-price-'+item.item_id" data-bind="
+															text: $parent.getFormattedPrice(item.old_price*item.qty)"></span>
+														<div class="orig_price" data-bind="attr: {id: 'item-old-price-val-'+item.item_id}"></div>
+														<span class="'special-price-'+item.item_id" data-bind="
+															text: $parent.getFormattedPrice(item.special_price*item.qty)"></span>
+														<div data-bind="attr: {id: 'item-special-price-val-'+item.item_id}" class="'discount_price-'+item.item_id"></div>
+													<!-- /ko -->
+													<!-- ko ifnot: item.special_price -->
+														
+														<div data-bind="attr: {id: 'item-normal-price-val-'+item.item_id}" class="normarl-price 'discount_price-'+item.item_id"></div>
+													<!-- /ko -->
+												</div>
+												<div class="product-item-remove" ifnot="item.available_home_delivery">
+													<span class="not-available-home-devlivery" data-bind="text:'Not available for home delivery'"></span>
+													<span class="remove-item">
+														<a href="javascript:void(0)" data-bind="attr: 
+															{
+																id: 'cancel-item-'+item.item_id
+															},
+															event: {click: $parent.customDeleteProduct(item.item_id)}" ><!-- ko i18n: 'Remove Item' --><!-- /ko -->
+														</a>
+													</span>
+												</div>
+											</div>
+											
+											<div class="home-div" if="$parent.isPickup()">
+												<div class="product-item-price price-pickup" if="item.quote_item_sku">
+													<div data-bind="text: console.log(item)"></div>
+													<!-- ko if: item.special_price -->
+														<span class="'old-price-'+item.item_id" data-bind="text: $parent.getFormattedPrice(item.old_price*item.qty)"></span>
+														<div class="orig_price" data-bind="attr: {id: 'item-old-price-val-'+item.item_id}"></div>
+														<span class="'special-price-'+item.item_id" data-bind="text: $parent.getFormattedPrice(item.special_price*item.qty)"></span>
+														<div data-bind="attr: {id: 'item-special-price-val-'+item.item_id}" class="normarl-price 'discount_price-'+item.item_id"></div>
+													<!-- /ko -->
+													<!-- ko ifnot: item.special_price -->
+														
+														<div data-bind="attr: {id: 'item-normal-price-val-'+item.item_id}" class="normarl-price 'discount_price-'+item.item_id"></div>
+													<!-- /ko -->
+												</div>
+												<div class="product-item-remove remove-pickup" ifnot="item.quote_item_sku">
+													<span class="not-available-home-devlivery" data-bind="i18n:'Not available for Pickup Store'"></span>
+													<span class="remove-item">
+														<a href="javascript:void(0)" data-bind="attr: 
+															{
+																id: 'cancel-item-'+item.item_id
+															},
+															event: {click: $parent.customDeleteProduct(item.item_id)}" ><!-- ko i18n: 'Remove Item' --><!-- /ko -->
+														</a>
+													</span>
+												</div>
+											</div>
+											<!-- ko ifnot: item.available_home_delivery -->
+													<label data-bind="text: $parent.diableContinue('true')" style="display: none;"></label>
+											<!-- /ko -->
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					<!-- /ko -->
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,369 @@
+<?php
+	use Magento\Framework\App\Action\Action;
+
+	$quiz_resp_name = $this->getRequest()->getParam('req_name');
+	$requestId = $this->getRequest()->getParam('resid');
+	$productCollection = $block->getProductCollection();
+	$hairconsultCollection = $block->getHairConsultCollection($requestId);
+
+	if(count($hairconsultCollection)) {
+		foreach($hairconsultCollection as $hairconsult) {
+			$description = $hairconsult['hair_quiz_result_description'];
+			$sku_arr = $hairconsult['consult_products_hair'] === null ? false : explode (",", $hairconsult['consult_products_hair']);
+			$banner_image = $block->getBannerImage($hairconsult['banner_image']);
+			$mobile_banner_image = $block->getMobileBannerImage($hairconsult['mobile_banner_image']);
+			$beautyRoutine = $block->getBeautySteps($hairconsult['beauty_steps']);
+			$kitId = $hairconsult['quiz_kit'];
+		}
+	}
+
+	$abstract = $this->getLayout()
+					->createBlock('Magento\Catalog\Block\Product\AbstractProduct');
+
+	$listProductBlock = $this->getLayout()
+					->createBlock('Magento\Catalog\Block\Product\ListProduct');
+
+	$pos = $this->getPositioned();
+	$productIds = [];
+
+	// isset($kitId) ? $kitId : null;
+
+	// Product Kit starts
+
+	// $kitCollection = $block->getKitCollection($requestId);
+
+	// foreach($kitCollection->getData() as $item) {
+	// 	$kitId = $item['kit_id'];
+	// }
+
+	$combination = [];
+	$combinationHash = [];
+	$productData = [];
+	$kitData = [];
+	$kitProductIds = [];
+
+	if(isset($kitId) && $kitId) {
+		$kitItemsCollection = $block->getKitItemCollection($kitId);
+
+		foreach($kitItemsCollection as $item) {
+			$id = $item['item_id'] . "-" . $item['product_id'];
+			$kid = $item['item_id'];
+
+			$kitData[$item['product_id']] = [
+				'kit_id'=>     $kitId,
+				'product_id'=> $item['product_id'],
+				'item_id'=>    $item['item_id'],
+				'position'=>   $item['position']
+			];
+			array_push($kitProductIds, (int) $item['product_id']);
+			array_push($combination, $id);
+			array_push($combinationHash, $kid);
+		}
+
+		$productData[$kitId] = $kitData;
+		
+		$selectedCombination = implode("/", $combination);
+		$selectedQuoteCombination = implode("/", $combinationHash);
+		$pdata = $productData;
+		$hash = $kitId . time();
+	}
+	else {
+		$selectedCombination = [];
+		$selectedQuoteCombination = [];
+		$pdata = [];
+		$hash = '';
+	}
+	// Product Kit ends
+?>
+
+
+<div class="consultant-banner">
+	<div class="container">
+		<div class="w-60 page-short-desc">
+			<h1 class="bold"><?= __("Hi %1,", $quiz_resp_name) ?></h1>
+			<p class="mb-15 font-medium"><?= __("Based on your taken survey, here’s the summary of your hair conditions:") ?></p>
+			<p class="primary-color pr-20 font-medium"><?= $description ?></p>
+		</div>
+		<div class="banner">
+			<div class="m-hide">
+				<?= $banner_image; ?>
+			</div>
+			<div class="m-show">
+				<?= $mobile_banner_image; ?>
+			</div>
+		</div>
+	</div>
+</div>
+<?php //echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('quiz_consult_block_two')->toHtml();?>
+<?php if(isset($beautyRoutine)): ?>
+	<div class="beauty_routine">
+		<?= $beautyRoutine ?>
+	</div>
+<?php endif; ?>
+
+
+<div class="container grid-prdouct-two">
+	<div class="products wrapper grid products-grid">
+		<ol class="products list items product-items product-grid-wrapper">
+			<?php if($sku_arr !== false): ?>
+				<?php foreach($sku_arr as $sku): ?>
+					<?php 
+						$product = $productCollection->get($sku);
+						array_push($productIds, $product->getId());
+						if($product->isDisabled()) {
+							continue;
+						}
+					?>
+					<li class="item product product-item">
+						<div class="product-item-info"
+									id="product-item-info_<?= /* @noEscape */ $product->getId() ?>" data-container="product-grid">
+							
+
+							<?php
+								$productImage = $abstract->getImage($product, 'category_page_list');
+								if ($pos != null) {
+										$position = 'left:' . $productImage->getWidth() . 'px;'
+												. 'top:' . $productImage->getHeight() . 'px;';
+								}
+							?>
+							<?php // Product Image ?>
+								
+							<a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>"
+												class="product photo product-item-photo"
+												tabindex="-1">
+												<figure>
+												<?= $productImage->toHtml() ?>
+												</figure>
+							</a>
+
+
+							<div class="product details product-item-details">
+								<strong class="product name product-item-name">
+									<a class="product-item-link" 
+											href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>">
+										<?= $product->getName() ?>
+									</a>
+								</strong>
+								<span class="qty">
+									<?php 
+										if($product->getData('tube_qty')): 
+											echo $product->getData('tube_qty')." . "; 
+										endif;
+									?>
+									<?php 
+										if($product->getData('color_shades')): 
+											echo $product->getData('color_shades'); 
+										endif;
+									?>
+								</span>
+								<?= $abstract->getReviewsSummaryHtml($product, \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW) ?>
+								
+								<?= /* @noEscape */ $abstract->getProductPrice($product) ?>
+
+								<div class="product-item-inner">
+									<div class="product actions product-item-actions">
+										<div class="actions-primary">
+											<?php if($product->isSaleable()): ?>
+												<?php $postParams = $listProductBlock->getAddToCartPostParams($product); ?>
+												<?php
+													if($product->getTypeId() == "configurable"){
+															$add_to_cart_cls = "action tocart primary";
+															$add_to_cart_title = $escaper->escapeHtml(__('Choose your color'));?>
+															<?php $url = $product->getProductUrl(); ?>
+															<button type="submit" onclick="location.href = '<?php echo $url; ?>';" title="Add to Cart" class="action tocart primary">
+															<span><?php echo $add_to_cart_title;?></span>
+													</button>
+													<?php 
+													}
+													else{
+														$add_to_cart_cls = "popup action tocart primary";
+														$add_to_cart_title = $escaper->escapeHtml(__('Add to Cart')); ?>
+
+													<form data-role="tocart-form"
+																data-product-sku="<?= $escaper->escapeHtml($product->getSku()) ?>"
+																action="<?= $escaper->escapeUrl($postParams['action']) ?>"
+																method="post">
+															
+															<input type="hidden"
+																			name="product"
+																			value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+															<input type="hidden"
+																			name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>"
+																			value="<?=
+																			/* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]
+																			?>">
+															<?= $block->getBlockHtml('formkey') ?>
+															<button type="submit"
+																			title="<?= $add_to_cart_title ?>"
+																			class="<?php echo "test ".$add_to_cart_cls;?>">
+																	<span><?= $add_to_cart_title ?></span>
+															</button>
+													</form>
+												<?php } ?>
+											<?php else: ?>
+												<button type="submit" title="<?= __("Out Of Stock") ?>" class="action tocart primary" disabled>
+													<span><?= __("OUT OF STOCK") ?></span>
+												</button>
+											<?php endif; ?>
+
+												<div data-role="add-to-links" class="actions-secondary">
+														<?php if($product->getData('best_seller')):?>
+															<span class="bestseller-tag"><?= __("BEST SELLER") ?></span>
+														<?php elseif($product->hasData('tags')): ?>
+															<span class="bestseller-tag"><?= $product->getAttributeText('tags') ?></span>
+														<?php endif;?>
+														<?php if($product->getData('prod_discount_offer_price')):?>
+																<span class="discount-offer"><?php echo $product->getData('prod_discount_offer_price');?></span>
+														<?php endif;?>
+												</div>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</ol>
+	</div>
+</div>
+
+<style>
+	input[type="radio"] {
+		position: relative;
+		opacity: 1;
+	}
+
+	.modal-inner-wrap {
+		height: 85% !important;
+	}
+</style>
+
+<div id="buy-together-popup" style="display: none;">
+	<div class="cartContent"></div>
+</div>
+
+<div class="promotion-banner">
+	<div class="container">
+		<?php if(isset($kitId) && $kitId): ?>
+			<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('buy-all-banner')->toHtml() ?>
+		<?php endif; ?>
+	</div>
+</div>
+
+<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('quiz_consult_you_may_like')->toHtml();?>
+<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('quiz_consult_bottom_desc')->toHtml();?>
+
+<script>
+	require(['jquery', 'Magento_Ui/js/modal/modal'], function($, modal) {
+
+		$kitId = '<?= isset($kitId) ? $kitId : null ?>';
+		$ids = '<?= json_encode($productIds); ?>';
+		$kitProductIds = '<?= json_encode($kitProductIds) ?>';
+		$selectedCombination = '<?= json_encode($selectedCombination) ?>';
+		$selectedQuoteCombination = '<?= json_encode($selectedQuoteCombination) ?>';
+		$productsData = '<?= json_encode($pdata) ?>';
+		$kitData = '<?= json_encode($kitData) ?>';
+		$kitData = JSON.parse($kitData);
+		$hash = '<?= json_encode($hash) ?>';
+		$kit_url = '<?= $block->getUrl('product_kit/cart/add'); ?>';
+
+		console.log($kitData);
+
+		$('.quiz-buy-all').click(function() {
+			addTo();
+		});
+
+		function addTo() {
+			let requestData = new FormData();
+		
+			requestData.set('selectedCombination', $selectedCombination.replaceAll('"', ''));
+			requestData.set('selectedQuoteCombination', $selectedQuoteCombination.replaceAll('"', ''));
+
+			console.log($productsData);
+
+			var productForms = $('form', $('.cartContent', this.$el));
+
+			if(!productForms.length) {
+				requestData.set('products', $productsData);
+			}
+			else {
+				for (var index = 0; index < productForms.length; index++) {
+                    if (typeof productForms[index] != 'undefined') {
+                        let key = 'forms[' + $kitId + '][' + index + ']';
+            
+                        requestData.set(key + '[kit_id]', $kitId);
+            
+                        if ($('[name="product"]', productForms[index]).length) {
+                            var productId = $('[name="product"]', productForms[index]).val();
+                
+                            requestData.set(key + '[item_id]', $kitData[productId]['item_id']);
+                            requestData.set(key + '[position]', $kitData[productId]['position']);
+                        }
+    
+                        let fields = $(productForms[index]).serializeArray();
+
+                        // console.log(fields);
+    
+                        _.each(fields, function (field) {
+                            requestData.set(key + '[' + escape(field.name) + ']', field.value);
+                        }.bind(this));
+                        
+                        let fileFields = $('input[type="file"]', productForms[index]);
+    
+                        _.each(fileFields, function (field) {
+                            requestData.set($(field).attr('name'), field.files[0]);
+                        });
+                    }
+                }
+			}
+
+			requestData.set('hash', btoa($hash.replaceAll('"', '')));
+
+			$.ajax({
+                type:        "POST",
+                url:         $kit_url,
+                data:        requestData,
+                dataType:    'json',
+                processData: false,
+                contentType: false,
+				showLoader: true,
+
+                success: function (response) {
+					console.log(response);
+					if (response.html.length > 0) {
+
+						var options = {
+							type: 'popup',
+							responsive: true,
+							innerScroll: true,
+							title: 'Buy Together',
+							buttons: [{
+								text: $.mage.__('Buy All'),
+								class: 'action primary',
+								click: function () {
+									addTo();
+								}
+							}]
+						};
+						var popup = modal(options, $('#buy-together-popup'));
+
+						$(".cartContent").html(response.html);
+						$("#buy-together-popup").modal("openModal");
+					}
+
+					if(response.success) {
+						alert("Product Added To Cart Successfully !!!");
+						$('.action-close').trigger("click");
+						location.reload(true);
+					}
+                }.bind(this),
+
+                error: function (e) {
+                    console.log("Unexpected Error");
+                }.bind(this)
+            });
+		}
+	});
+</script>

@@ -1,0 +1,26 @@
+<div id="opc-sidebar" class="payment-step-summary" ifnot="showSummary()">
+	<div class="discount-sidebar">
+		<!-- ko foreach: getRegion('discount_sidebar') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->
+	</div>
+	<div class="payment-setp-summary">
+		<!-- ko foreach: getRegion('summary') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->
+	</div>
+
+    <div class="opc-block-shipping-information">
+        <!-- ko foreach: getRegion('shipping-information') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+    </div>
+</div>
+
+<div id="opc-sidebar" class="shipping-step-summary" if="showSummary()">
+	<div class="shipping-setp-summary">
+		<!-- ko foreach: getRegion('custom_sidebar') -->
+			<!-- ko template: getTemplate() --><!-- /ko -->
+		<!--/ko-->
+	</div>
+</div>
